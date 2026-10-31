@@ -280,19 +280,21 @@ def build():
 
     # ══ 1. Introduction ══════════════════════════════════════════════════════
     section("Introduction and Problem Framing", [
-        "Nearly one in five Medicare patients returns to the hospital within 30 days of "
-        "discharge, at an estimated annual cost of $17.4 billion (Jencks et al., 2009), and "
-        "the Hospital Readmissions Reduction Program now penalizes hospitals with excess "
-        "readmissions (McIlvennan et al., 2015). Patients with diabetes are at elevated "
-        "risk (Rubin, 2015), so the problem affects patients, who bear the harm of a return "
-        "stay; hospitals, which bear the penalty; and payers, who bear the cost. Hospitals "
-        "respond with care-transition programs such as follow-up calls and medication "
-        "reconciliation, but those programs have limited capacity and must be targeted. "
-        "This project therefore asks: using only information available at discharge, can "
-        "routinely collected encounter data rank diabetic inpatients by 30-day readmission "
-        "risk well enough to direct a capacity-limited intervention? Published readmission "
-        "models discriminate only modestly (Kansagara et al., 2011), so success means "
-        "outperforming a simple clinical heuristic rather than reaching high accuracy.",
+        "A readmission within 30 days hurts two groups at once. Patients return to the "
+        "hospital sicker than when they left, and hospitals pay for it under the Hospital "
+        "Readmissions Reduction Program, which penalizes excess readmissions (McIlvennan et "
+        "al., 2015). The problem is large: nearly one in five Medicare patients is "
+        "readmitted within 30 days, at an estimated $17.4 billion a year (Jencks et al., "
+        "2009), and patients with diabetes are at higher risk than most (Rubin, 2015). "
+        "Hospitals try to prevent these returns with follow-up calls and medication "
+        "reconciliation, but such programs can reach only some patients, so the real "
+        "question is whom to contact first. This project therefore asks: using only "
+        "information available at discharge, can routinely collected encounter data rank "
+        "diabetic inpatients by 30-day readmission risk well enough to decide who receives "
+        "follow-up? We judge success by ranking, not accuracy. Published readmission models "
+        "discriminate only modestly (Kansagara et al., 2011), so a model is useful if it "
+        "beats a simple clinical heuristic and concentrates readmissions at the top of its "
+        "list.",
     ])
 
     # ══ 2. Dataset ═══════════════════════════════════════════════════════════
@@ -587,26 +589,28 @@ def build():
             fs=9)
 
     section("Ethical Considerations and Real-World Application", [
-        f"In practice the model would support, not replace, discharge planning: the "
-        f"care-transition team would receive each day's discharges ranked by risk and "
-        f"contact as many as capacity allows. At 10% capacity, per 1,000 discharges the "
-        f"team would reach about {caught:.0f} of the {per_1000:.0f} patients who will be "
-        f"readmitted, against about {per_1000 / 10:.0f} by random selection. Four ethical "
-        f"issues bound that use. First, bias by proxy: prior admissions, the strongest "
+        f"In practice the model would support, not replace, discharge planning. Each day "
+        f"the care-transition nurses would receive that day's discharges ranked by risk and "
+        f"call patients from the top of the list for as long as capacity allows. At 10% "
+        f"capacity, per 1,000 discharges they would reach about {caught:.0f} of the "
+        f"{per_1000:.0f} patients who will be readmitted, against about "
+        f"{per_1000 / 10:.0f} by random selection. The ethical concern we consider most "
+        f"serious is the age gap in Table {t_sub}: discrimination was clearly weaker for "
+        f"patients 65 and older (AUC {nz(a_old['auc'])} vs. {nz(a_young['auc'])}), yet they "
+        f"are the Medicare population the penalty program targets, so the model is least "
+        f"reliable for the patients it most needs to serve. Two other fairness issues need "
+        f"watching. Women were flagged more often than men ({pct(g_f['flag_rate'])} vs. "
+        f"{pct(g_m['flag_rate'])}) at nearly equal readmission rates, although the two "
+        f"largest race groups showed nearly identical discrimination (AUC "
+        f"{nz(r_aa['auc'])} and {nz(r_ca['auc'])}). And prior admissions, the strongest "
         f"predictor, measures access to care as well as need, so patients who struggle to "
-        f"reach a hospital may be under-flagged (Obermeyer et al., 2019); excluding race "
-        f"and payer as inputs does not remove such proxies. Table {t_sub} shows nearly "
-        f"identical discrimination for the two largest race groups (AUC {nz(r_aa['auc'])} "
-        f"and {nz(r_ca['auc'])}) but two gaps: women were flagged more often than men "
-        f"({pct(g_f['flag_rate'])} vs. {pct(g_m['flag_rate'])}) at nearly equal readmission "
-        f"rates, and discrimination was weaker for patients 65 and older (AUC "
-        f"{nz(a_old['auc'])} vs. {nz(a_young['auc'])}), the Medicare population the penalty "
-        f"program targets. Deliverable 2 will test both gaps for miscalibration. Second, "
-        f"transparency: "
-        f"the coefficients in Figure {f_coef} can be reviewed by clinicians. Third, error "
-        f"costs are asymmetric, since a missed patient loses support whereas a false alarm "
-        f"costs a phone call, which favors recall within capacity. Fourth, privacy: the "
-        f"public file holds no names or dates, and a deployed version would run under HIPAA.",
+        f"reach a hospital may be under-flagged (Obermeyer et al., 2019); excluding race and "
+        f"payer as inputs does not remove such proxies. Deliverable 2 will test the age and "
+        f"gender gaps for miscalibration. Three safeguards also apply: clinicians can review "
+        f"the coefficients in Figure {f_coef}; errors are asymmetric, since a missed patient "
+        f"loses support whereas a false alarm costs a phone call, which favors recall within "
+        f"capacity; and the public file holds no names or dates, while a deployed version "
+        f"would run under HIPAA.",
     ], after={0: ex_subgroups})
 
     # ══ 5. Team ══════════════════════════════════════════════════════════════
