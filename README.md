@@ -1,66 +1,132 @@
-# Residency Project — Deliverable 1: 30-Day Readmission for Patients With Diabetes
+# Predicting 30-Day Hospital Readmission for Patients With Diabetes
 
-**Course:** Python Application for Data Analytics in AI (PhDAI-733-M20) · **Instructor:** Dr. Marwan Omar
-**Team:** Yogananda Atreya Chinthaluri (53651) — data and modeling lead · Anil Kumar Abburi (53405) — evaluation, ethics, and application lead
+**Residency Project** · Python Application for Data Analytics in AI (PhDAI-733-M20)
+University of the Cumberlands · Instructor: Dr. Marwan Omar
 
-Can routinely collected encounter data rank diabetic inpatients by 30-day readmission risk
-at discharge, well enough to target a capacity-limited care-transition program?
-Data: Clore, J., Cios, K., DeShazo, J., & Strack, B. (2014), *Diabetes 130-US hospitals for
-years 1999–2008*, UCI Machine Learning Repository, CC BY 4.0 — <https://doi.org/10.24432/C5230J>.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ychinthaluri53651/diabetes-readmission-residency-day-1/blob/main/Diabetes_Readmission_D1_Chinthaluri_Abburi.ipynb)
+
+## Team
+
+| | Yogananda Atreya Chinthaluri | Anil Kumar Abburi |
+|---|---|---|
+| **Student ID** | 53651 | 53405 |
+| **GitHub** | [@ychinthaluri53651](https://github.com/ychinthaluri53651) | [@Anil9618](https://github.com/Anil9618) |
+| **Leads, Deliverable 1** | Dataset exploration · model development · preliminary tuning | Problem definition · ethics and impact · real-world application · Colab reproduction |
+| **Leads, Deliverable 2** | Ethics and fairness audit · real-world cost and capacity analysis | Optimization and evaluation · problem-definition update · model explanation |
+
+Each of us leads three rubric criteria and reviews the other's three. The roles rotate
+between deliverables, so each of us leads the core modeling once. Teamwork, documentation,
+and writing are shared. The full split is in [TEAM_TASKS.md](TEAM_TASKS.md).
+
+## The problem
+
+Under Medicare's Hospital Readmissions Reduction Program, hospitals are penalized for excess
+30-day readmissions, and care-transition programs can enroll only a fraction of discharges.
+We ask whether routinely collected encounter data can rank diabetic inpatients by 30-day
+readmission risk at discharge, well enough to target such a capacity-limited program.
+
+The data are 101,766 encounters for 71,518 patients at 130 U.S. hospitals, 1999–2008
+(Clore et al., 2014). After cleaning, 99,340 encounters for 69,987 patients remain, and
+11.4% were readmitted within 30 days.
+
+## Deliverable 1 results
+
+The test set holds 25% of patients (24,757 encounters). No patient appears in both
+training and test, and cross-validation uses five folds grouped by patient.
+
+| Model | CV ROC-AUC (mean ± SD) | Test ROC-AUC | Test PR-AUC | Recall | Lift, top 10% |
+|---|---|---|---|---|---|
+| **Logistic regression (initial model)** | .656 ± .005 | **.661** | .198 | .573 | 2.08 |
+| Random forest, default settings | .635 ± .008 | .635 | .187 | .001 | 2.04 |
+| Prior-admissions heuristic | .608 ± .006 | .605 | .177 | .491 | 2.09 |
+| Dummy (base rate) | .500 | .500 | .113 | .000 | 1.00 |
+
+- **Initial model.** Logistic regression reaches a test ROC-AUC of .661 (95% patient-level
+  bootstrap CI .650–.673). It beats the heuristic by .048–.065 AUC and the default forest by
+  .017–.034, and ties the heuristic in the top risk decile.
+- **The accuracy trap.** The default forest's 88.7% accuracy equals a model that predicts
+  "no readmission" for everyone, while it catches 0.1% of readmissions. Tuning is therefore
+  scored on ROC-AUC.
+- **Preliminary tuning.** A tuned forest (depth 10, 200 trees) reaches .665, against .662 for
+  tuned logistic regression. The difference is not significant (95% CI −.001 to .008).
+- **Ethics check.** Two gaps are carried into Deliverable 2. Women are flagged more often
+  than men (38.8% vs. 34.6%) at the same base rate, and discrimination is weaker for
+  patients 65 and older (AUC .633 vs. .713).
 
 ## Deliverables
 
-| File | What it is |
+| File | Contents |
 |---|---|
-| `Diabetes_Readmission_D1_Chinthaluri_Abburi.ipynb` | **Colab notebook** — self-contained (downloads the UCI file on first run), ships with outputs and figures; follows the course "Hints and Tips for Success" step by step (map in the notebook header) |
-| `Diabetes_Readmission_Deliverable1_Chinthaluri_Abburi.docx` | **Report** — APA 7th (Assignment 4 format): Introduction and Problem Framing → Dataset Exploration and Preprocessing → Initial Model Development (incl. Preliminary Tuning) → Ethical Considerations and Real-World Application → Team Collaboration Process → References → Appendix A (Colab link, rubric map, course-hints map) |
+| [`Diabetes_Readmission_Deliverable1_Chinthaluri_Abburi.docx`](Diabetes_Readmission_Deliverable1_Chinthaluri_Abburi.docx) | Report, APA 7th: problem framing, dataset exploration and preprocessing, initial model development and tuning, ethics and real-world application, team collaboration, references, Appendix A |
+| [`Diabetes_Readmission_D1_Chinthaluri_Abburi.ipynb`](Diabetes_Readmission_D1_Chinthaluri_Abburi.ipynb) | Colab notebook, executed with outputs; downloads the data on first run |
 
-## Before submitting
+## How we collaborate
 
-1. Complete the team tasks in `TEAM_TASKS.md` and set each flag in `TEAM_TASKS`
-   (`generate_report.py`) to `True` only once it is actually done.
-2. Set `COLAB_URL` in `generate_report.py` (upload the `.ipynb` to Colab, Share → "Anyone with
-   the link can view", paste the link).
-3. Rebuild. `generate_report.py` prints a WARNING while either step is incomplete.
+- **Issues.** Every task is an [issue](https://github.com/ychinthaluri53651/diabetes-readmission-residency-day-1/issues) assigned to its owner and grouped under
+  a [milestone](https://github.com/ychinthaluri53651/diabetes-readmission-residency-day-1/milestones) for each deliverable.
+- **Branches.** Each task has its own branch, named `owner/short-task`.
+- **Pull requests.** Nothing reaches `main` until the other member approves the
+  [pull request](https://github.com/ychinthaluri53651/diabetes-readmission-residency-day-1/pulls?q=is%3Apr). `CODEOWNERS` requests that review automatically, and
+  the pull-request template carries the review checklist.
+- **Decisions.** Methodological choices are logged in [DECISIONS.md](DECISIONS.md) with
+  proposer, reviewer, and date, along with notes from our weekly check-ins.
+- **Authorship.** Each of us commits under our own GitHub account, so the history records
+  who wrote and who reviewed each change.
 
-## Reproducing
+## Reproducing the results
+
+**In Colab:** click the badge above and run Runtime → Run all. The notebook downloads the
+UCI files itself. For this private repository, Colab first asks for permission to read
+private GitHub repositories.
+
+**Locally** (Python 3.14):
 
 ```bash
+pip install -r requirements.txt
 python3 build_notebook.py       # executes the notebook -> figures/*.png, outputs/results.json
 python3 render_screenshots.py   # renders the tagged notebook cells -> figures/shot_*.png
 python3 generate_report.py      # -> Diabetes_Readmission_Deliverable1_Chinthaluri_Abburi.docx
 ```
 
-The random-forest cross-validation and grid search make the notebook take several minutes
-on one core; in Colab the trees run in parallel (`N_JOBS = -1`).
+The executed notebook is the single source of truth: every figure is written to `figures/`
+and every reported number to `outputs/results.json`, which the report reads. The report build
+fails on an abstract over 150 words, an uncited reference, an exhibit never called out, or a
+sentence the results no longer support.
 
-`generate_report.py` fails the build on: an abstract over 150 words, a section outside ±25%
-of its page budget, an uncited reference, a British spelling, an exhibit never called out,
-exhibits first mentioned out of order, a spacing slip, or a **narrative claim the results
-no longer support** (the `CLAIMS` list re-checks each results-dependent sentence).
+<details>
+<summary><b>Repository layout</b></summary>
 
-## Course hints: where they are followed
+| Path | Purpose |
+|---|---|
+| `build_notebook.py` | Assembles and executes the notebook |
+| `render_screenshots.py` | Draws the cells tagged `shot:<key>` (code plus real output) as report figures |
+| `generate_report.py`, `report_common.py` | Build the APA report from `outputs/results.json` |
+| `figures/`, `outputs/` | Generated figures and results |
+| `TEAM_TASKS.md` | Who leads and reviews what in each deliverable |
+| `DECISIONS.md` | Decision log and meeting notes |
+| `Hints and Tips for Success.docx` | Course guidance the notebook follows |
+| `data/` | UCI files, downloaded on first run (not tracked) |
 
-The three hints that would introduce errors on this dataset are applied in corrected form,
-and the notebook explains each:
+</details>
 
-- **`fillna(method='ffill')`** → per-column missing-value handling. Rows are different
-  patients, so forward fill would copy one patient's values into another's record (and
-  pandas 3 removed the argument).
-- **Encode/scale before the split** → `OneHotEncoder` + `StandardScaler` inside a `Pipeline`
-  fit after the split, so test-set statistics cannot leak into training.
-- **`GridSearchCV(scoring='accuracy')`** → ROC-AUC scoring with patient-grouped folds. The
-  default random forest shows why: its accuracy equals a do-nothing model's while it catches
-  almost no readmissions.
+<details>
+<summary><b>How the course "Hints and Tips for Success" are followed</b></summary>
 
-## File layout
+Every step is followed visibly; the notebook header maps each hint to its section. Three
+hints would introduce errors on this dataset, so they are applied in corrected form and the
+notebook explains why:
 
-- `data/` — `diabetic_data.csv` and `IDS_mapping.csv` from the UCI archive
-- `build_notebook.py` — assembles and executes the notebook, the **single source of truth**:
-  every figure goes to `figures/`, every quoted number to `outputs/results.json`
-- `render_screenshots.py` — draws the cells tagged `shot:<key>` (code + real output) to PNG
-- `report_common.py` — APA-7th python-docx helpers (same house style as Assignment 4)
-- `generate_report.py` — builds the DOCX from `results.json`, so the text cannot drift from the code
-- `Hints and Tips for Success.docx` — the course guidance the notebook follows
-- `TEAM_TASKS.md` — who leads and reviews what, Deliverable 1 tasks, Deliverable 2 split
-- `DECISIONS.md` — decision log with proposer and reviewer, plus meeting notes
+- **Forward fill** → missing values are handled column by column, because each row is a
+  different patient.
+- **Encoding and scaling before the split** → both are fit after the split, inside a
+  `Pipeline`, so test-set statistics cannot leak into training.
+- **`GridSearchCV` scored on accuracy** → scored on ROC-AUC with folds grouped by patient
+  (see the accuracy trap above).
+
+</details>
+
+## Data
+
+Clore, J., Cios, K., DeShazo, J., & Strack, B. (2014). *Diabetes 130-US hospitals for years
+1999–2008* [Data set]. UCI Machine Learning Repository. <https://doi.org/10.24432/C5230J>
+(CC BY 4.0). The full reference list is in the report.

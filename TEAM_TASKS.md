@@ -42,6 +42,15 @@ until all are `True`. Each task is also a GitHub issue.
 | 5 | Abburi | APA proofread of the full report (title page, citations, references, tables, figures) | Issue comments or commits |
 | 6 | Both | Hold the first weekly check-in and log it with date and decisions | Dated entry in `DECISIONS.md` |
 
+### Before submitting Deliverable 1
+
+1. Finish tasks 1–6 above and set each flag in `TEAM_TASKS` (`generate_report.py`) to
+   `True` only once it is actually done.
+2. Set `COLAB_URL` in `generate_report.py`: upload the `.ipynb` to Colab, choose Share →
+   "Anyone with the link can view", and paste the link.
+3. Rebuild with `python3 generate_report.py`. It prints a WARNING while either step is
+   incomplete.
+
 ## Deliverable 2 — roles rotate
 
 | Criterion | Lead | Reviewer | Work |
