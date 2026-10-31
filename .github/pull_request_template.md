@@ -9,7 +9,7 @@ Closes #
 - [ ] The notebook runs top to bottom (Runtime → Run all in Colab)
 - [ ] `outputs/results.json` and `figures/` are regenerated if any number or figure changed
 - [ ] The report's tables and figures match `outputs/results.json`
-- [ ] Methodological changes are logged in `DECISIONS.md`
+- [ ] Methodological changes are explained in this description
 
 ## Review (other member)
 

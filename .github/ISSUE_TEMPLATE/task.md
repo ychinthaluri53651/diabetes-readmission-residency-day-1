@@ -18,4 +18,4 @@ assignees: ""
 
 ## Evidence it leaves
 
-<!-- Commit, pull request, issue comment, or DECISIONS.md entry. -->
+<!-- Commit, pull request, or issue comment. -->

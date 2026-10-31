@@ -30,7 +30,6 @@ found, and how we worked as a team, and it links to each piece of evidence.
 |---|---|
 | The report (APA 7th) | [`Diabetes_Readmission_Deliverable1_Chinthaluri_Abburi.docx`](Diabetes_Readmission_Deliverable1_Chinthaluri_Abburi.docx) |
 | The code with every output | [`Diabetes_Readmission_D1_Chinthaluri_Abburi.ipynb`](Diabetes_Readmission_D1_Chinthaluri_Abburi.ipynb), or run it with the Colab badge above |
-| The decisions we made, and why | [`DECISIONS.md`](DECISIONS.md) |
 | How we reviewed each other's work | [Pull requests](https://github.com/ychinthaluri53651/diabetes-readmission-residency-day-1/pulls?q=is%3Apr) |
 | How we planned and tracked tasks | [Issues](https://github.com/ychinthaluri53651/diabetes-readmission-residency-day-1/issues?q=is%3Aissue) and [milestones](https://github.com/ychinthaluri53651/diabetes-readmission-residency-day-1/milestones?state=all) |
 
@@ -81,8 +80,8 @@ training and test. Cross-validation uses five folds grouped by patient.
 - **Reviewing.** Nothing reaches `main` until the other member approves the pull request.
   `CODEOWNERS` requests that review automatically, and a template carries the review
   checklist.
-- **Deciding.** Each methodological choice is logged in `DECISIONS.md` with who proposed
-  it, who reviewed it, and when, along with notes from our check-ins.
+- **Deciding.** Each methodological choice is proposed by one of us and agreed by the other,
+  in a pull-request review or at one of our check-ins.
 - **Authorship.** Each of us commits under our own GitHub account, so the history shows who
   wrote and who reviewed each change.
 
@@ -115,7 +114,6 @@ from that run.
 | `Diabetes_Readmission_D1_Chinthaluri_Abburi.ipynb` | The Colab notebook, executed, with every output |
 | `Diabetes_Readmission_Deliverable1_Chinthaluri_Abburi.docx` | The report |
 | `figures/`, `outputs/` | Figures and results written by the notebook |
-| `DECISIONS.md` | Decision log and meeting notes |
 | `requirements.txt` | Package versions for a local run |
 | `data/` | UCI files, downloaded on first run (not tracked) |
 
