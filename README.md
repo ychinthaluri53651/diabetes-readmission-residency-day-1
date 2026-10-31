@@ -127,24 +127,19 @@ exhibit is never called out.
 | `figures/`, `outputs/` | Generated figures and results |
 | `TEAM_TASKS.md` | Who leads and reviews what in each deliverable |
 | `DECISIONS.md` | Decision log and meeting notes |
-| `Hints and Tips for Success.docx` | Course guidance the notebook follows |
 | `data/` | UCI files, downloaded on first run (not tracked) |
 
 </details>
 
 <details>
-<summary><b>How we followed the course "Hints and Tips for Success"</b></summary>
+<summary><b>Safeguards against misleading results</b></summary>
 
-We followed every step visibly; the notebook header maps each hint to its section. Three
-hints would introduce errors on this dataset, so we applied them in corrected form and
-explain why in the notebook:
-
-- **Forward fill** → missing values are handled column by column, because each row is a
+- **No forward fill:** missing values are handled column by column, because each row is a
   different patient.
-- **Encoding and scaling before the split** → both are fit after the split, inside a
-  `Pipeline`, so test-set statistics cannot leak into training.
-- **`GridSearchCV` scored on accuracy** → scored on ROC-AUC with folds grouped by patient
-  (see finding 2).
+- **No leakage:** encoding and scaling are fit after the split, inside a `Pipeline`, so
+  test-set statistics cannot leak into training.
+- **No accuracy trap:** tuning is scored on ROC-AUC with folds grouped by patient (see
+  finding 2).
 
 </details>
 
