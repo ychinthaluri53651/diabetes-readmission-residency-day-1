@@ -6,9 +6,9 @@ Closes #
 
 ## Checklist (author)
 
-- [ ] The notebook runs top to bottom (`python3 build_notebook.py`, or Runtime → Run all in Colab)
+- [ ] The notebook runs top to bottom (Runtime → Run all in Colab)
 - [ ] `outputs/results.json` and `figures/` are regenerated if any number or figure changed
-- [ ] `python3 generate_report.py` passes every check
+- [ ] The report's tables and figures match `outputs/results.json`
 - [ ] Methodological changes are logged in `DECISIONS.md`
 
 ## Review (other member)
