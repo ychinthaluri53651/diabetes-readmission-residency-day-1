@@ -31,8 +31,8 @@ FIGDIR = HERE / "figures"
 TITLE = "Predicting 30-Day Hospital Readmission for Patients With Diabetes"
 SUBTITLE = ("Residency Project Deliverable 1: Data Exploration, Preprocessing, "
             "and an Initial Model")
-OUT_NAME = "Diabetes_Readmission_Deliverable1_Chinthaluri.docx"
-NOTEBOOK = "Diabetes_Readmission_D1_Chinthaluri.ipynb"
+OUT_NAME = "Diabetes_Readmission_Deliverable1_Chinthaluri_Abburi.docx"
+NOTEBOOK = "Diabetes_Readmission_D1_Chinthaluri_Abburi.ipynb"
 
 # Paste the Colab share link here (Share -> "Anyone with the link can view").
 COLAB_URL = ""
@@ -705,6 +705,7 @@ def build():
         col_widths=[26, 14, 60], fs=9)
 
     out = HERE / OUT_NAME
+    doc.core_properties.title = TITLE
     doc.save(out)
 
     # ── verification ─────────────────────────────────────────────────────────
