@@ -1,0 +1,397 @@
+{
+  "versions": {
+    "python": "3.14.5",
+    "pandas": "3.0.3",
+    "sklearn": "1.9.0"
+  },
+  "n_raw": 101766,
+  "n_cols_raw": 50,
+  "n_patients_raw": 71518,
+  "n_dup_rows": 0,
+  "missing_share": {
+    "weight": 0.9686,
+    "medical_specialty": 0.4908,
+    "payer_code": 0.3956,
+    "race": 0.0223,
+    "diag_3": 0.014,
+    "diag_2": 0.0035,
+    "diag_1": 0.0002
+  },
+  "target_3class": {
+    "NO": 0.5391,
+    ">30": 0.3493,
+    "<30": 0.1116
+  },
+  "share_enc_repeat_patients": 0.4620501935813533,
+  "share_patients_repeat": 0.23452837048015884,
+  "max_enc_per_patient": 40,
+  "n_admission_codes": {
+    "admission_type_id": 8,
+    "discharge_disposition_id": 26,
+    "admission_source_id": 17
+  },
+  "n_icd9_codes": 915,
+  "skew_counts": {
+    "time_in_hospital": 1.1339987193338785,
+    "num_lab_procedures": -0.23654392055049014,
+    "num_procedures": 1.3164147632805119,
+    "num_medications": 1.3266721343814565,
+    "number_outpatient": 8.832958927156982,
+    "number_emergency": 22.855582151471214,
+    "number_inpatient": 3.614138992302628,
+    "number_diagnoses": -0.8767462388449533
+  },
+  "corr_max_pair": [
+    "Length of stay",
+    "Medications"
+  ],
+  "corr_max": 0.4650941557980564,
+  "corr_outcome": {
+    "Length of stay": 0.05090372258187256,
+    "Lab tests": 0.02056419450048841,
+    "Procedures": -0.006113348333291587,
+    "Medications": 0.04542341802925883,
+    "Prior outpatient": 0.03416889714583497,
+    "Prior emergency": 0.06343801707582773,
+    "Prior inpatient": 0.13838209304235474,
+    "Diagnoses": 0.04723041633412558
+  },
+  "ledger": [
+    {
+      "step": "Raw UCI file",
+      "encounters": 101766,
+      "patients": 71518,
+      "rate_30d": 0.1116
+    },
+    {
+      "step": "Drop exact duplicate rows",
+      "encounters": 101766,
+      "patients": 71518,
+      "rate_30d": 0.1116
+    },
+    {
+      "step": "Remove deaths and hospice discharges",
+      "encounters": 99343,
+      "patients": 69990,
+      "rate_30d": 0.1139
+    },
+    {
+      "step": "Remove invalid gender codes",
+      "encounters": 99340,
+      "patients": 69987,
+      "rate_30d": 0.1139
+    }
+  ],
+  "n_clean": 99340,
+  "n_patients_clean": 69987,
+  "prevalence": 0.1138916851218039,
+  "numeric_missing": 0,
+  "n_drugs": 23,
+  "kept_drugs": [
+    "metformin",
+    "repaglinide",
+    "glimepiride",
+    "glipizide",
+    "glyburide",
+    "pioglitazone",
+    "rosiglitazone",
+    "insulin"
+  ],
+  "diag1_groups": {
+    "Circulatory": 0.2988,
+    "Other": 0.1791,
+    "Respiratory": 0.1403,
+    "Digestive": 0.094,
+    "Diabetes": 0.0872,
+    "Injury": 0.069,
+    "Genitourinary": 0.0504,
+    "Musculoskeletal": 0.0497,
+    "Neoplasms": 0.0315,
+    "Missing": 0.0002
+  },
+  "skew_inpatient": 3.633364965761236,
+  "skew_log_inpatient": 1.4550640935683803,
+  "rate_by_inpatient": {
+    "0": 0.0859,
+    "1": 0.1325,
+    "2": 0.1793,
+    "3": 0.2103,
+    "4": 0.2414,
+    "5+": 0.3713
+  },
+  "n_by_inpatient": {
+    "0": 66242,
+    "1": 18984,
+    "2": 7300,
+    "3": 3271,
+    "4": 1574,
+    "5+": 1969
+  },
+  "rate_by_discharge": {
+    "Home": 0.093,
+    "Home health": 0.1271,
+    "Facility transfer": 0.1644,
+    "Left AMA": 0.1445,
+    "Unknown": 0.1177
+  },
+  "rate_by_age": {
+    "0\u201310": 0.0188,
+    "10\u201320": 0.058,
+    "20\u201330": 0.1431,
+    "30\u201340": 0.1126,
+    "40\u201350": 0.1066,
+    "50\u201360": 0.0977,
+    "60\u201370": 0.113,
+    "70\u201380": 0.1206,
+    "80\u201390": 0.1257,
+    "90\u2013100": 0.119
+  },
+  "rate_by_a1c": {
+    "Not measured": 0.1169,
+    "Normal": 0.0977,
+    ">7%": 0.1015,
+    ">8%": 0.0994
+  },
+  "a1c_measured_share": 0.16945842560901953,
+  "rate_a1c_measured": 0.09938220268504218,
+  "rate_a1c_not": 0.11685210772549876,
+  "a1c_chi2": 42.10862698885343,
+  "a1c_p": 8.634144833003905e-11,
+  "n_num": 10,
+  "n_cat": 19,
+  "n_model_cols": 102,
+  "n_train": 74583,
+  "n_test": 24757,
+  "n_train_patients": 52490,
+  "n_test_patients": 17497,
+  "prev_train": 0.11430218682541599,
+  "prev_test": 0.11265500666478168,
+  "cv": {
+    "Logistic regression": {
+      "auc_mean": 0.6562215784059223,
+      "auc_sd": 0.005013864437480994,
+      "ap_mean": 0.19879357064759132,
+      "ap_sd": 0.0029907560958510023
+    },
+    "Random forest": {
+      "auc_mean": 0.6354405130717757,
+      "auc_sd": 0.008395427477231954,
+      "ap_mean": 0.18764705886384367,
+      "ap_sd": 0.005341118763132739
+    },
+    "Prior-admissions heuristic": {
+      "auc_mean": 0.6078425221213606,
+      "auc_sd": 0.006400671696052192,
+      "ap_mean": 0.17580309952868892,
+      "ap_sd": 0.004808886814432237
+    },
+    "Dummy (prior rate)": {
+      "auc_mean": 0.5,
+      "auc_sd": 0.0,
+      "ap_mean": 0.11430218694870713,
+      "ap_sd": 4.1971176801384575e-06
+    }
+  },
+  "holdout": {
+    "Logistic regression": {
+      "roc_auc": 0.6614270843969533,
+      "pr_auc": 0.19816176698422694,
+      "accuracy": 0.6476148160116331,
+      "recall": 0.5729652205091431,
+      "precision": 0.17500821377724235,
+      "f1": 0.2681208053691275,
+      "flagged": 0.3688249787938765,
+      "lift_top10": 2.0760129078522764
+    },
+    "Random forest": {
+      "roc_auc": 0.6354695049117371,
+      "pr_auc": 0.1870810460662634,
+      "accuracy": 0.8873449933352183,
+      "recall": 0.0014342058085335247,
+      "precision": 0.5,
+      "f1": 0.002860207365033965,
+      "flagged": 0.0003231409298380256,
+      "lift_top10": 2.0377527618609497
+    },
+    "Prior-admissions heuristic": {
+      "roc_auc": 0.6054021224391839,
+      "pr_auc": 0.1766043036227306,
+      "accuracy": 0.6692248656945511,
+      "recall": 0.4904983865184654,
+      "precision": 0.168141592920354,
+      "f1": 0.25043478260869567,
+      "flagged": 0.32863432564527206,
+      "lift_top10": 2.0874657198421422
+    },
+    "Dummy (prior rate)": {
+      "roc_auc": 0.5,
+      "pr_auc": 0.11265500666478168,
+      "accuracy": 0.8873449933352183,
+      "recall": 0.0,
+      "precision": 0.0,
+      "f1": 0.0,
+      "flagged": 0.0,
+      "lift_top10": 1.0
+    }
+  },
+  "boot": {
+    "auc_lo": 0.6498475488507061,
+    "auc_hi": 0.6727161778921924,
+    "gain_lo": 0.04822314734891173,
+    "gain_hi": 0.06476849291613059,
+    "gain_rf_lo": 0.017058866179126646,
+    "gain_rf_hi": 0.03421161867087557,
+    "lift10_diff_lo": -0.12467977763160443,
+    "lift10_diff_hi": 0.10425855281938697,
+    "tuned_rf_minus_lr_lo": -0.001164933934975565,
+    "tuned_rf_minus_lr_hi": 0.008420574604570527
+  },
+  "lift_curve": {
+    "5%": {
+      "lr": 2.3940480458945865,
+      "rf": 2.3182898982846143,
+      "rule": 2.5295211257861134
+    },
+    "10%": {
+      "lr": 2.0760129078522764,
+      "rf": 2.0377527618609497,
+      "rule": 2.0874657198421422
+    },
+    "20%": {
+      "lr": 1.8472570813911804,
+      "rf": 1.6981375858272665,
+      "rule": 1.69366464844803
+    },
+    "30%": {
+      "lr": 1.6588980518704435,
+      "rf": 1.5566080248909162,
+      "rule": 1.5223833755790648
+    }
+  },
+  "confusion": {
+    "tn": 14435,
+    "fp": 7533,
+    "fn": 1191,
+    "tp": 1598
+  },
+  "mean_pred_prob": 0.4687987735045475,
+  "top_coef": {
+    "Tertiary dx: Missing": 0.7396930575461083,
+    "Discharge: Home": 0.7508082361214093,
+    "Specialty: Orthopedics-Reconstructive": 0.8044274099918874,
+    "metformin: Up": 0.8126115807928312,
+    "Specialty: Cardiology": 0.847682350950007,
+    "Primary dx: Respiratory": 0.8567204914211923,
+    "Secondary dx: Respiratory": 0.8664185878100564,
+    "Secondary dx: Diabetes": 1.13192539299942,
+    "Primary dx: other (pooled)": 1.1348338926783104,
+    "Primary dx: Diabetes": 1.1528474376953262,
+    "Tertiary dx: Neoplasms": 1.2024219758653918,
+    "Specialty: Nephrology": 1.3294882935619283,
+    "metformin: Down (pooled rare)": 1.3459579697425528,
+    "Secondary dx: Neoplasms": 1.358926359190154,
+    "Discharge: Facility transfer": 1.3644594971530541,
+    "Prior inpatient admissions (log, per SD)": 1.4301633070732656
+  },
+  "or_inpatient": 1.4301633070732656,
+  "random_split_shared_patients": 7836,
+  "random_split_test_rows_shared": 0.4033823233340044,
+  "random_split_auc": {
+    "Logistic regression": 0.6642233193257463,
+    "Random forest": 0.6403911665241656
+  },
+  "tuning": {
+    "Logistic regression": {
+      "best_params": {
+        "C": 0.01
+      },
+      "cv_auc": 0.6559202487876413,
+      "test_auc": 0.6615071251981761,
+      "test_pr_auc": 0.19764423659248082,
+      "lift_top10": 2.0760129078522764,
+      "lift_top20": 1.8321979204015773
+    },
+    "Random forest": {
+      "best_params": {
+        "max_depth": 10,
+        "n_estimators": 200
+      },
+      "cv_auc": 0.6607177454890776,
+      "test_auc": 0.6650254113222349,
+      "test_pr_auc": 0.2121609479946756,
+      "lift_top10": 2.162065256364288,
+      "lift_top20": 1.8698458228755825
+    }
+  },
+  "subgroups": {
+    "race": {
+      "AfricanAmerican": {
+        "n": 4607.0,
+        "base_rate": 0.1083,
+        "auc": 0.6584,
+        "flag_rate": 0.3642,
+        "recall": 0.5611
+      },
+      "Caucasian": {
+        "n": 18563.0,
+        "base_rate": 0.1153,
+        "auc": 0.661,
+        "flag_rate": 0.3764,
+        "recall": 0.582
+      },
+      "Hispanic": {
+        "n": 507.0,
+        "base_rate": 0.0966,
+        "auc": 0.7202,
+        "flag_rate": 0.3097,
+        "recall": 0.551
+      },
+      "Other": {
+        "n": 361.0,
+        "base_rate": 0.1108,
+        "auc": 0.6512,
+        "flag_rate": 0.2881,
+        "recall": 0.425
+      },
+      "Missing": {
+        "n": 561.0,
+        "base_rate": 0.0802,
+        "auc": 0.6217,
+        "flag_rate": 0.2852,
+        "recall": 0.4444
+      }
+    },
+    "gender": {
+      "Female": {
+        "n": 13395.0,
+        "base_rate": 0.1125,
+        "auc": 0.6673,
+        "flag_rate": 0.3881,
+        "recall": 0.6098
+      },
+      "Male": {
+        "n": 11362.0,
+        "base_rate": 0.1128,
+        "auc": 0.6551,
+        "flag_rate": 0.3461,
+        "recall": 0.5296
+      }
+    },
+    "age_group": {
+      "65+": {
+        "n": 16512.0,
+        "base_rate": 0.1163,
+        "auc": 0.6329,
+        "flag_rate": 0.4179,
+        "recall": 0.583
+      },
+      "<65": {
+        "n": 8245.0,
+        "base_rate": 0.1053,
+        "auc": 0.7127,
+        "flag_rate": 0.2705,
+        "recall": 0.5507
+      }
+    }
+  }
+}
