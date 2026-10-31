@@ -66,12 +66,12 @@ LEADS = {"Problem definition": ("Abburi", "Chinthaluri"),
 # done by the named member before submission: set each flag to True only when it is
 # (details in TEAM_TASKS.md).  The build warns while any is False.
 TEAM_TASKS = {
-    "Abburi re-ran the notebook in Colab from GitHub and confirmed Tables 3-4 (issue)": False,
+    "Abburi re-ran the notebook in Colab from GitHub and confirmed Tables 3-4 (issue)": True,  # issue #1, 2026-10-31
     "Abburi reviewed and approved the Deliverable 1 pull request on GitHub": True,  # PR #9, 2026-10-31
     "Abburi revised the Introduction and Ethics sections he leads (own branch + PR)": True,  # PR #13, 2026-10-31
-    "Chinthaluri reviewed and merged Abburi's pull request": False,
+    "Chinthaluri reviewed and merged Abburi's pull request": True,  # PR #13, 2026-10-31
     "Abburi proofread the full report for APA style (issue)": True,  # issue #5, 2026-10-31
-    "First weekly check-in held and logged in DECISIONS.md": False,
+    "First weekly check-in held and logged in DECISIONS.md": True,  # PR #14, 2026-10-31
 }
 
 # Page budgets ("about"), checked at ±25% per section.  The brief sets the first four;
@@ -280,8 +280,8 @@ def build():
 
     # ══ 1. Introduction ══════════════════════════════════════════════════════
     section("Introduction and Problem Framing", [
-        "A readmission within 30 days hurts two groups at once. Patients return to the "
-        "hospital sicker than when they left, and hospitals pay for it under the Hospital "
+        "A readmission within 30 days hurts two groups at once. Patients face another "
+        "hospital stay, and hospitals pay for it under the Hospital "
         "Readmissions Reduction Program, which penalizes excess readmissions (McIlvennan et "
         "al., 2015). The problem is large: nearly one in five Medicare patients is "
         "readmitted within 30 days, at an estimated $17.4 billion a year (Jencks et al., "
@@ -609,7 +609,7 @@ def build():
         f"predictor, measures access to care as well as need, so patients who struggle to "
         f"reach a hospital may be under-flagged (Obermeyer et al., 2019); excluding race and "
         f"payer as inputs does not remove such proxies. Deliverable 2 will test the age and "
-        f"gender gaps for miscalibration. Three safeguards also apply: clinicians can review "
+        f"gender gaps for miscalibration. Three considerations also apply: clinicians can review "
         f"the coefficients in Figure {f_coef}; errors are asymmetric, since a missed patient "
         f"loses support whereas a false alarm costs a phone call, which favors recall within "
         f"capacity; and the public file holds no names or dates, while a deployed version "
