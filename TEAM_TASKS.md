@@ -2,12 +2,12 @@
 
 | Member | Student ID | GitHub | Leads in Deliverable 1 | Leads in Deliverable 2 |
 |---|---|---|---|---|
-| Yogananda Atreya Chinthaluri | 53651 | `ychinthaluri53651` | Dataset exploration, model development, preliminary tuning | Ethics and fairness audit, real-world cost and capacity analysis |
-| Anil Kumar Abburi | 53405 | `Anil9618` | Problem definition, ethics and impact, real-world application, Colab reproduction | Optimization and evaluation: tuning, boosting, calibration, thresholds |
+| Yogananda Atreya Chinthaluri | 53651 | `ychinthaluri53651` | Data audit and cleaning, feature engineering, modeling, preliminary tuning | Fairness audit and mitigation, cost and capacity analysis |
+| Anil Kumar Abburi | 53405 | `Anil9618` | Introduction, ethical analysis, deployment scenario, Colab reproduction, APA proofread | Model tuning, boosting, calibration, and thresholds |
 
-**Equal shares.** Each member leads three rubric criteria and reviews the other's three.
+**Equal shares.** Each member leads part of the work and reviews the other's.
 The roles **rotate** between deliverables, so each member leads the core modeling once.
-Teamwork, documentation, and writing are shared.
+We write the report together.
 
 The report's Team Collaboration Process section describes the Deliverable 1 tasks below as
 done. **Each must actually be done by the named member before submission.** When one is
@@ -37,7 +37,7 @@ until all are `True`. Each task is also a GitHub issue.
 |---|---|---|---|
 | 1 | Abburi | Run the notebook in Colab from GitHub (Runtime → Run all) and confirm the results match report Tables 3 and 4 | Comment on the issue with the numbers obtained |
 | 2 | Abburi | Review the Deliverable 1 pull request (grouped split, no forward fill, ROC-AUC scoring); approve it or request changes | Pull-request review under `Anil9618`; sign-offs in `DECISIONS.md` |
-| 3 | Abburi | Revise the sections he leads, the Introduction and the Ethical Considerations and Real-World Application section, on branch `abburi/framing-and-ethics` | His commits; his pull request |
+| 3 | Abburi | Revise the sections he leads, the Introduction and the Ethical Considerations section, on branch `abburi/framing-and-ethics` | His commits; his pull request |
 | 4 | Chinthaluri | Review Abburi's pull request and merge it | Pull-request review |
 | 5 | Abburi | APA proofread of the full report (title page, citations, references, tables, figures) | Issue comments or commits |
 | 6 | Both | Hold the first weekly check-in and log it with date and decisions | Dated entry in `DECISIONS.md` |
@@ -53,12 +53,12 @@ until all are `True`. Each task is also a GitHub issue.
 
 ## Deliverable 2 — roles rotate
 
-| Criterion | Lead | Reviewer | Work |
+| Area | Lead | Reviewer | Work |
 |---|---|---|---|
-| Optimization and evaluation | **Abburi** | Chinthaluri | Wider grids, a gradient-boosting challenger, calibration, and a capacity-based threshold |
-| Ethics and impact | **Chinthaluri** | Abburi | Subgroup recall, flag rate, and calibration with confidence intervals; a mitigation test |
-| Real-world application | **Chinthaluri** | Abburi | Cost and capacity analysis; deployment and monitoring plan |
-| Problem definition update | **Abburi** | Chinthaluri | Refine the framing with the Deliverable 1 findings |
+| Model tuning and evaluation | **Abburi** | Chinthaluri | Wider grids, a gradient-boosting challenger, calibration, and a capacity-based threshold |
+| Fairness audit | **Chinthaluri** | Abburi | Subgroup recall, flag rate, and calibration with confidence intervals; a mitigation test |
+| Cost and capacity | **Chinthaluri** | Abburi | Cost and capacity analysis; deployment and monitoring plan |
+| Updated framing | **Abburi** | Chinthaluri | Refine the framing with the Deliverable 1 findings |
 | Model explanation | **Abburi** | Chinthaluri | Permutation importance for the final model |
 | Report | Both | Both | Each drafts the sections he leads and reviews the other's; final APA pass shared |
 
