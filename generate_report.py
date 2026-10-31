@@ -11,7 +11,7 @@ drift from the code.
 Structure: the brief's four sections (Introduction and Problem Framing, Dataset
 Exploration and Preprocessing, Initial Model Development, Team Collaboration Process)
 plus Ethical Considerations and Use in Practice, then References and Appendix A (Colab
-link and course-hints map).  Narrative length is checked per section with real Georgia font
+link).  Narrative length is checked per section with real Georgia font
 metrics; exhibits add pages of their own.  Narrative claims that depend on the results
 are re-checked at build time (CLAIMS), so a rerun that changes a conclusion fails loudly.
 
@@ -497,7 +497,8 @@ def build():
               f"{trf['lift_top10']:.2f}"]],
             col_widths=[16, 24, 18, 11, 13, 9, 9],
             note=("GridSearchCV with three patient-grouped, stratified folds and ROC-AUC "
-                  "scoring; the forest grid follows the course hints. Test metrics use the "
+                  "scoring; the forest grid varies the number of trees and the maximum depth. "
+                  "Test metrics use the "
                   "same patient-disjoint test set as Table 3."),
             fs=8.5)
         rc.add_fig(doc, FIGDIR / "shot_tuning.png", f_tune,
@@ -524,7 +525,8 @@ def build():
         f"its coefficients can be inspected when a score allocates care (Rudin, 2019), and "
         f"established readmission indices such as LACE are themselves additive risk scores "
         f"(van Walraven et al., 2010). A random forest (Breiman, 2001) at default settings "
-        f"serves as the nonlinear comparison the course guidance suggests. Data were split "
+        f"serves as a nonlinear comparison that can capture interactions the linear model "
+        f"misses. Data were split "
         f"75/25 by patient, five-fold stratified group cross-validation was run on the "
         f"training set, and a prior-rate dummy and a prior-admissions heuristic anchor the "
         f"results.",
@@ -547,10 +549,9 @@ def build():
         f"deployment question of performance on new patients.",
 
         ("h2", "Preliminary Tuning"),
-        f"Following the course hints, GridSearchCV tuned both models (Table {t_tune}, "
-        f"Figure {f_tune}), with two corrections: folds were grouped by patient, and "
-        f"scoring used ROC-AUC, because accuracy rewards the do-nothing behavior shown "
-        f"above. Limiting tree depth raised the forest's test AUC from {nz(rf['roc_auc'])} "
+        f"GridSearchCV tuned both models (Table {t_tune}, Figure {f_tune}) on folds grouped "
+        f"by patient and scored on ROC-AUC, because accuracy rewards the do-nothing behavior "
+        f"shown above. Limiting tree depth raised the forest's test AUC from {nz(rf['roc_auc'])} "
         f"to {nz(trf['test_auc'])}, whereas the logistic regression barely moved "
         f"({nz(lr['roc_auc'])} to {nz(tlr['test_auc'])}), because its discrimination is "
         f"nearly flat across the penalty grid. {tuned_sentence} Class weighting also "
@@ -641,7 +642,7 @@ def build():
 
     doc.add_page_break()
     rc.heading(doc, "Appendix A", 1)
-    rc.heading(doc, "Google Colab Notebook and Course-Hints Map", 1)
+    rc.heading(doc, "Google Colab Notebook", 1)
     p = rc.body(doc, "Notebook link (view access for the instructor): ", indent=False)
     if COLAB_URL:
         rc.hyperlink(p, COLAB_URL)
@@ -649,32 +650,8 @@ def build():
         rc._run(p, "[PASTE COLAB SHARE LINK]", bold=True)
     rc.body(doc, (f"The notebook ({NOTEBOOK}) is self-contained: on first run it downloads "
                   f"the UCI archive, then executes top to bottom and writes every figure "
-                  f"and reported number. Table A1 shows how each course hint was followed, "
-                  f"including the three applied in corrected form."),
+                  f"and reported number."),
             indent=True)
-    rc.add_table(
-        doc, "A1", "Course Hints and How the Notebook Follows Them",
-        ["Hint", "Notebook section", "How it is applied"],
-        [["1. Setup and imports", "1",
-          "pandas, NumPy, Matplotlib, seaborn, scikit-learn, GridSearchCV; warnings suppressed"],
-         ["2. Uploading or accessing data", "2",
-          "Downloaded by URL, with files.upload() as fallback"],
-         ["3. Exploration and cleaning", "3–4, 6",
-          "shape, info(), describe(), countplot, histograms, heatmap, drop_duplicates(); "
-          "missing values handled per column instead of forward fill, which would copy "
-          "values between different patients"],
-         ["4. Feature engineering and preprocessing", "5, 7",
-          "One-hot encoding and StandardScaler fit after the split inside a Pipeline, "
-          "not on the full data, to prevent leakage"],
-         ["5. Train-test split", "7", "75/25 with random_state = 42, grouped by patient"],
-         ["6. Model training and evaluation", "8–11",
-          "Logistic regression and RandomForestClassifier; classification_report; "
-          "confusion-matrix heatmaps"],
-         ["7. Hyperparameter tuning", "12",
-          "GridSearchCV with the hint's forest grid, scored on ROC-AUC rather than accuracy"],
-         ["8. Ethical considerations", "13",
-          "Markdown cell answering the hint's questions, plus a subgroup check"]],
-        col_widths=[26, 14, 60], fs=9)
 
     out = HERE / OUT_NAME
     doc.core_properties.title = TITLE
@@ -724,7 +701,7 @@ def build():
     print(f"  figures first mentioned in order: {order} -> {'OK' if order == sorted(order) else 'NO'}")
     print(f"  tables first mentioned in order: {t_order} -> {'OK' if t_order == sorted(t_order) else 'NO'}")
     print(f"  spacing slips: {spacing or 'none'}")
-    print(f"  figures: {len(_FIGURES)} | tables: {len(_TABLES)} (+1 in Appendix A)")
+    print(f"  figures: {len(_FIGURES)} | tables: {len(_TABLES)}")
     pending = [t for t, done in TEAM_TASKS.items() if not done]
     if pending:
         print(f"  WARNING team tasks described in the report but not yet confirmed "
