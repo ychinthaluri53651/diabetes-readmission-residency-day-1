@@ -16,7 +16,7 @@ from nbclient import NotebookClient
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-NB_PATH = HERE / "Diabetes_Readmission_D1_Chinthaluri.ipynb"
+NB_PATH = HERE / "Diabetes_Readmission_D1_Chinthaluri_Abburi.ipynb"
 
 C = []          # (kind, source, tags)
 md = lambda s: C.append(("md", s.strip("\n"), []))
@@ -1022,6 +1022,7 @@ def build():
         "kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"},
         "language_info": {"name": "python"},
         "colab": {"provenance": [], "toc_visible": True},
+        "authors": [{"name": "Yogananda Atreya Chinthaluri"}, {"name": "Anil Kumar Abburi"}],
     }
     print(f"assembled {len(nb.cells)} cells; executing…")
     NotebookClient(nb, timeout=900, kernel_name="python3",

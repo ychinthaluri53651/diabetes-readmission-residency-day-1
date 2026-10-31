@@ -12,8 +12,8 @@ years 1999–2008*, UCI Machine Learning Repository, CC BY 4.0 — <https://doi.
 
 | File | What it is |
 |---|---|
-| `Diabetes_Readmission_D1_Chinthaluri.ipynb` | **Colab notebook** — self-contained (downloads the UCI file on first run), ships with outputs and figures; follows the course "Hints and Tips for Success" step by step (map in the notebook header) |
-| `Diabetes_Readmission_Deliverable1_Chinthaluri.docx` | **Report** — APA 7th (Assignment 4 format): Introduction and Problem Framing → Dataset Exploration and Preprocessing → Initial Model Development (incl. Preliminary Tuning) → Ethical Considerations and Real-World Application → Team Collaboration Process → References → Appendix A (Colab link, rubric map, course-hints map) |
+| `Diabetes_Readmission_D1_Chinthaluri_Abburi.ipynb` | **Colab notebook** — self-contained (downloads the UCI file on first run), ships with outputs and figures; follows the course "Hints and Tips for Success" step by step (map in the notebook header) |
+| `Diabetes_Readmission_Deliverable1_Chinthaluri_Abburi.docx` | **Report** — APA 7th (Assignment 4 format): Introduction and Problem Framing → Dataset Exploration and Preprocessing → Initial Model Development (incl. Preliminary Tuning) → Ethical Considerations and Real-World Application → Team Collaboration Process → References → Appendix A (Colab link, rubric map, course-hints map) |
 
 ## Before submitting
 
@@ -28,7 +28,7 @@ years 1999–2008*, UCI Machine Learning Repository, CC BY 4.0 — <https://doi.
 ```bash
 python3 build_notebook.py       # executes the notebook -> figures/*.png, outputs/results.json
 python3 render_screenshots.py   # renders the tagged notebook cells -> figures/shot_*.png
-python3 generate_report.py      # -> Diabetes_Readmission_Deliverable1_Chinthaluri.docx
+python3 generate_report.py      # -> Diabetes_Readmission_Deliverable1_Chinthaluri_Abburi.docx
 ```
 
 The random-forest cross-validation and grid search make the notebook take several minutes
