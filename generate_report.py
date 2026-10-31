@@ -67,7 +67,7 @@ LEADS = {"Problem definition": ("Abburi", "Chinthaluri"),
 # (details in TEAM_TASKS.md).  The build warns while any is False.
 TEAM_TASKS = {
     "Abburi re-ran the notebook in Colab from GitHub and confirmed Tables 3-4 (issue)": False,
-    "Abburi reviewed and approved the Deliverable 1 pull request on GitHub": False,
+    "Abburi reviewed and approved the Deliverable 1 pull request on GitHub": True,  # PR #9, 2026-10-31
     "Abburi revised the Introduction and Ethics sections he leads (own branch + PR)": False,
     "Chinthaluri reviewed and merged Abburi's pull request": False,
     "Abburi proofread the full report for APA style (issue)": False,
