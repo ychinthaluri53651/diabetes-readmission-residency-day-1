@@ -219,7 +219,9 @@ def add_table(doc, number, title, headers, rows, col_widths=None, note=None, fs=
         par.alignment = WD_ALIGN_PARAGRAPH.LEFT
         par.paragraph_format.line_spacing = 1.0
         par.paragraph_format.space_after = Pt(0)
-        _run(par, h, bold=True, size=fs)
+        for k, seg in enumerate(h.split("*")):      # '*M*' marks italic symbols
+            if seg:
+                _run(par, seg, bold=True, italic=k % 2 == 1, size=fs)
         _cell_bottom_border(hdr[i]); _cell_margins(hdr[i])
         hdr[i].vertical_alignment = WD_ALIGN_VERTICAL.CENTER
         if col_widths:

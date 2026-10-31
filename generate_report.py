@@ -70,7 +70,7 @@ TEAM_TASKS = {
     "Abburi reviewed and approved the Deliverable 1 pull request on GitHub": True,  # PR #9, 2026-10-31
     "Abburi revised the Introduction and Ethics sections he leads (own branch + PR)": False,
     "Chinthaluri reviewed and merged Abburi's pull request": False,
-    "Abburi proofread the full report for APA style (issue)": False,
+    "Abburi proofread the full report for APA style (issue)": True,  # issue #5, 2026-10-31
     "First weekly check-in held and logged in DECISIONS.md": False,
 }
 
@@ -96,7 +96,7 @@ REFS = [
     ("McIlvennan et al., 2015", "McIlvennan, C. K., Eapen, Z. J., & Allen, L. A. (2015). Hospital readmissions reduction program. *Circulation, 131*(20), 1796–1803. https://doi.org/10.1161/CIRCULATIONAHA.114.010270"),
     ("McKinney, 2010", "McKinney, W. (2010). Data structures for statistical computing in Python. In S. van der Walt & J. Millman (Eds.), *Proceedings of the 9th Python in Science Conference* (pp. 56–61). https://doi.org/10.25080/Majora-92bf1922-00a"),
     ("Obermeyer et al., 2019", "Obermeyer, Z., Powers, B., Vogeli, C., & Mullainathan, S. (2019). Dissecting racial bias in an algorithm used to manage the health of populations. *Science, 366*(6464), 447–453. https://doi.org/10.1126/science.aax2342"),
-    ("Pedregosa et al., 2011", "Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., Vanderplas, J., Passos, A., Cournapeau, D., Brucher, M., Perrot, M., & Duchesnay, É. (2011). Scikit-learn: Machine learning in Python. *Journal of Machine Learning Research, 12*, 2825–2830."),
+    ("Pedregosa et al., 2011", "Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., Vanderplas, J., Passos, A., Cournapeau, D., Brucher, M., Perrot, M., & Duchesnay, É. (2011). Scikit-learn: Machine learning in Python. *Journal of Machine Learning Research, 12*, 2825–2830. https://jmlr.org/papers/v12/pedregosa11a.html"),
     ("Rubin, 2015", "Rubin, D. J. (2015). Hospital readmission of patients with diabetes. *Current Diabetes Reports, 15*(4), Article 17. https://doi.org/10.1007/s11892-015-0584-7"),
     ("Rudin, 2019", "Rudin, C. (2019). Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead. *Nature Machine Intelligence, 1*(5), 206–215. https://doi.org/10.1038/s42256-019-0048-x"),
     ("Sandve et al., 2013", "Sandve, G. K., Nekrutenko, A., Taylor, J., & Hovig, E. (2013). Ten simple rules for reproducible computational research. *PLOS Computational Biology, 9*(10), Article e1003285. https://doi.org/10.1371/journal.pcbi.1003285"),
@@ -330,7 +330,8 @@ def build():
             ["Group", "Variables", "Treatment"],
             [
                 ["Target", "Readmitted (<30 days, >30 days, no)",
-                 f"Binary: <30 days = 1 ({pct(R['prevalence'])}); source column removed"],
+                 f"Binary: <30 days = 1 ({pct(R['prevalence'])} of analyzed encounters); "
+                 f"source column removed"],
                 ["Prior utilization", "Outpatient, emergency, and inpatient visits in the prior year",
                  "log(1 + count), standardized"],
                 ["Stay intensity", "Length of stay; counts of lab tests, procedures, "
@@ -390,7 +391,8 @@ def build():
         f"diagnoses, HbA1c and glucose results, and {R['n_drugs']} diabetes medications. "
         f"The target is readmission within 30 days, coded 1 against both later readmission "
         f"and none, because only early returns trigger penalties; it occurs in "
-        f"{pct(R['target_3class']['<30'])} of encounters (Figure {f_audit}).",
+        f"{pct(R['target_3class']['<30'])} of raw encounters ({pct(R['prevalence'])} after "
+        f"the exclusions described below; Figure {f_audit}).",
 
         f"The audit shaped the cleaning. No exact duplicates were found. Missing values were "
         f"treated column by column rather than forward-filled, because adjacent rows belong "
@@ -449,7 +451,7 @@ def build():
                     pct(d["flagged"]), *lifts]
         rc.add_table(
             doc, t_res, "Initial Model Performance Against Two Reference Scores",
-            ["Model", "CV ROC-AUC M (SD)", "Test ROC-AUC", "PR-AUC", "Accuracy", "Recall",
+            ["Model", "CV ROC-AUC *M* (*SD*)", "Test ROC-AUC", "PR-AUC", "Accuracy", "Recall",
              "Precision", "Flagged", "Lift, top 10%", "Lift, top 20%"],
             [row("Logistic regression", lr, "lr"), row("Random forest", rf, "rf"),
              row("Prior-admissions heuristic", rule, "rule"),
@@ -461,8 +463,9 @@ def build():
                   f"absent from training. Threshold metrics use each model's default "
                   f"decision (0.5), at least one prior admission for the heuristic, and no "
                   f"flags for the dummy. Lift is the readmission rate among the "
-                  f"highest-risk share divided by the overall rate. The random forest uses "
-                  f"default settings."),
+                  f"highest-risk share divided by the overall rate. The dummy's PR-AUC "
+                  f"equals the test-set prevalence ({nz(R['prev_test'])}). The random forest "
+                  f"uses default settings."),
             fs=8)
         rc.add_fig(doc, FIGDIR / "shot_models.png", f_models,
                    "Colab Notebook Screenshot: Training Both Models and Their Classification Reports",
@@ -472,7 +475,7 @@ def build():
                    "Discrimination and Confusion Matrices of the Initial Models",
                    note=(f"Panels (a) and (b) compare both models with the prior-admissions "
                          f"heuristic on the test set; the dotted line in (b) is the "
-                         f"prevalence baseline ({nz(R['prev_test'])}). Panels (c) and (d) "
+                         f"test-set prevalence baseline ({nz(R['prev_test'])}). Panels (c) and (d) "
                          f"are seaborn heatmaps of the confusion matrices at the default "
                          f"threshold."), width=6.5)
 
@@ -560,7 +563,8 @@ def build():
         f"({nz(lr['roc_auc'])} to {nz(tlr['test_auc'])}), because its discrimination is "
         f"nearly flat across the penalty grid. {tuned_sentence} Class weighting also "
         f"inflated the mean predicted "
-        f"risk to {nz(R['mean_pred_prob'])} against an observed {nz(R['prev_test'])}, so "
+        f"risk to {nz(R['mean_pred_prob'])} against an observed test-set rate of "
+        f"{nz(R['prev_test'])}, so "
         f"Deliverable 2 will calibrate scores and set thresholds from program capacity.",
     ], after={2: lambda: (ex_results(), ex_coef()), 4: ex_tuning})
 
@@ -578,12 +582,11 @@ def build():
                              nz(s["auc"]), pct(s["flag_rate"]), nz(s["recall"])])
         rc.add_table(
             doc, t_sub, "Preliminary Subgroup Check of the Logistic Regression on the Test Set",
-            ["Group", "n", "Readmission rate", "ROC-AUC", "Flagged", "Recall"], rows,
+            ["Group", "*n*", "Readmission rate", "ROC-AUC", "Flagged", "Recall"], rows,
             col_widths=[30, 12, 16, 12, 14, 12],
             note=("Flags use the default 0.5 threshold. Groups with fewer than 30 "
-                  "readmissions are omitted because their estimates are unstable. Race, "
-                  "gender, and age group are not model inputs except age, which enters as a "
-                  "band midpoint."),
+                  "readmissions are omitted because their estimates are unstable. Race and "
+                  "gender are not model inputs; age enters only as a band midpoint."),
             fs=9)
 
     section("Ethical Considerations and Real-World Application", [
