@@ -1,6 +1,6 @@
 {
   "versions": {
-    "python": "3.14.5",
+    "python": "3.14.10",
     "pandas": "3.0.3",
     "sklearn": "1.9.0"
   },
@@ -391,6 +391,286 @@
         "auc": 0.7127,
         "flag_rate": 0.2705,
         "recall": 0.5507
+      }
+    }
+  },
+  "d2": {
+    "tuning": {
+      "Logistic regression": {
+        "grid": {
+          "C": [
+            0.003,
+            0.01,
+            0.03,
+            0.1,
+            0.3,
+            1,
+            3
+          ],
+          "penalty": [
+            "l1",
+            "l2"
+          ]
+        },
+        "n_candidates": 14,
+        "best_params": {
+          "C": 0.03,
+          "penalty": "l1"
+        },
+        "cv_auc": 0.6565096258524248,
+        "cv_auc_sd": 0.007873853744568084,
+        "cv_pr_auc": 0.1987254769435766,
+        "cv_pr_auc_sd": 0.005415586006765229,
+        "cv_auc_worst_candidate": 0.6526178032641329
+      },
+      "Random forest": {
+        "grid": {
+          "max_depth": [
+            12,
+            null
+          ],
+          "min_samples_leaf": [
+            10,
+            50
+          ],
+          "max_features": [
+            "sqrt",
+            0.2
+          ]
+        },
+        "n_candidates": 8,
+        "best_params": {
+          "max_depth": null,
+          "max_features": 0.2,
+          "min_samples_leaf": 50
+        },
+        "cv_auc": 0.6650617680830354,
+        "cv_auc_sd": 0.008641221977384357,
+        "cv_pr_auc": 0.21256550531986318,
+        "cv_pr_auc_sd": 0.007486930641041707,
+        "cv_auc_worst_candidate": 0.6603211163803243
+      },
+      "Gradient boosting": {
+        "grid": {
+          "learning_rate": [
+            0.03,
+            0.1
+          ],
+          "max_leaf_nodes": [
+            15,
+            31
+          ],
+          "l2_regularization": [
+            0.0,
+            1.0
+          ]
+        },
+        "n_candidates": 8,
+        "best_params": {
+          "l2_regularization": 0.0,
+          "learning_rate": 0.03,
+          "max_leaf_nodes": 15
+        },
+        "cv_auc": 0.6631866041571154,
+        "cv_auc_sd": 0.0076685327453217145,
+        "cv_pr_auc": 0.2088706690595046,
+        "cv_pr_auc_sd": 0.0059939085228991155,
+        "cv_auc_worst_candidate": 0.6465999698545694
+      }
+    },
+    "final_name": "Random forest",
+    "final_params": {
+      "max_depth": null,
+      "max_features": 0.2,
+      "min_samples_leaf": 50
+    },
+    "cv_margin_over_lr": 0.008552142230610627,
+    "cv_fold_gap_over_lr": {
+      "Random forest": [
+        0.008193790411767488,
+        0.006574211594304935,
+        0.01088842468575979
+      ],
+      "Gradient boosting": [
+        0.005247059837229173,
+        0.00598186282661195,
+        0.00880201225023114
+      ]
+    },
+    "calibration": {
+      "method": "isotonic",
+      "train_rate": 0.11430218682541599,
+      "brier_oof": {
+        "Initial model (D1)": 0.22946347319015978,
+        "Random forest, uncalibrated": 0.09731079421053906,
+        "Sigmoid": 0.09728157218778935,
+        "Isotonic": 0.09724369667398904
+      },
+      "brier_base_rate": 0.10123719691234367,
+      "mean_pred_oof": {
+        "Initial model (D1)": 0.4689325934544898,
+        "Random forest, uncalibrated": 0.11405978187884111,
+        "Sigmoid": 0.11421338413982779,
+        "Isotonic": 0.11437838243902915
+      },
+      "auc_oof": {
+        "Initial model (D1)": 0.6546618225572497,
+        "Random forest, uncalibrated": 0.6645385300343456,
+        "Sigmoid": 0.6644809639871262,
+        "Isotonic": 0.6642104152851014
+      }
+    },
+    "thresholds": {
+      "5%": {
+        "score": 0.22407136953482057,
+        "train_flag_share": 0.050199107035115244
+      },
+      "10%": {
+        "score": 0.18992134690727527,
+        "train_flag_share": 0.1001434643283322
+      },
+      "20%": {
+        "score": 0.15985228661190215,
+        "train_flag_share": 0.20059530992317284
+      }
+    },
+    "final": {
+      "roc_auc": 0.668441010517074,
+      "pr_auc": 0.2129689062876831,
+      "brier": 0.0957697648137723,
+      "mean_pred": 0.1135138289401821,
+      "lift_top10": 2.2084080315525276,
+      "lift_top20": 1.912899578012522,
+      "flagged_at_t10": 0.10805024841458981,
+      "recall_at_t10": 0.23485120114736466,
+      "precision_at_t10": 0.24485981308411214
+    },
+    "initial": {
+      "roc_auc": 0.6614270843969533,
+      "pr_auc": 0.19816176698422694,
+      "brier": 0.2286908967032348,
+      "mean_pred": 0.4687987735045475,
+      "lift_top10": 2.0760129078522764,
+      "lift_top20": 1.8472570813911804,
+      "flagged_at_t10": 0.09944662115765238,
+      "recall_at_t10": 0.2072427393330943,
+      "precision_at_t10": 0.2347684809098294
+    },
+    "test_rate": 0.11265500666478168,
+    "lift_curve": {
+      "5%": {
+        "final": 2.534321341779212,
+        "initial": 2.3940480458945865,
+        "rule": 2.5295211257861134
+      },
+      "10%": {
+        "final": 2.2084080315525276,
+        "initial": 2.0760129078522764,
+        "rule": 2.0874657198421422
+      },
+      "20%": {
+        "final": 1.912899578012522,
+        "initial": 1.8472570813911804,
+        "rule": 1.69366464844803
+      },
+      "30%": {
+        "final": 1.7076077263241123,
+        "initial": 1.6588980518704435,
+        "rule": 1.5223833755790648
+      }
+    },
+    "boot": {
+      "auc_final": {
+        "lo": 0.6568160772916297,
+        "hi": 0.6803864363720054
+      },
+      "auc_diff": {
+        "lo": 0.001770559553060358,
+        "hi": 0.011746107713230864
+      },
+      "pr_auc_diff": {
+        "lo": 0.007502435337174881,
+        "hi": 0.022325255215847294
+      },
+      "brier_diff": {
+        "lo": -0.1361776495715353,
+        "hi": -0.12965664280000486
+      },
+      "lift10_diff": {
+        "lo": 0.012257945092317916,
+        "hi": 0.2421512733281101
+      },
+      "lift20_diff": {
+        "lo": 0.014631645450067836,
+        "hi": 0.1376168909751675
+      }
+    },
+    "confusion_t10": {
+      "tn": 19948,
+      "fp": 2020,
+      "fn": 2134,
+      "tp": 655
+    },
+    "importance": {
+      "Prior inpatient admissions": {
+        "drop": 0.07016,
+        "sd": 0.00363
+      },
+      "Discharge destination": {
+        "drop": 0.05326,
+        "sd": 0.00144
+      },
+      "Number of diagnoses": {
+        "drop": 0.0041,
+        "sd": 0.00058
+      },
+      "Age": {
+        "drop": 0.00357,
+        "sd": 0.00028
+      },
+      "Prior emergency visits": {
+        "drop": 0.00334,
+        "sd": 0.0006
+      },
+      "Primary diagnosis group": {
+        "drop": 0.00323,
+        "sd": 0.00086
+      },
+      "Admission source": {
+        "drop": 0.00177,
+        "sd": 0.00028
+      },
+      "Length of stay": {
+        "drop": 0.00176,
+        "sd": 0.00067
+      },
+      "Secondary diagnosis group": {
+        "drop": 0.00153,
+        "sd": 0.00036
+      },
+      "On diabetes medication": {
+        "drop": 0.00111,
+        "sd": 0.0004
+      },
+      "Admitting specialty": {
+        "drop": 0.00105,
+        "sd": 0.00018
+      },
+      "Metformin": {
+        "drop": 0.00095,
+        "sd": 0.00012
+      },
+      "Number of procedures": {
+        "drop": 0.00087,
+        "sd": 0.0004
+      },
+      "Insulin": {
+        "drop": 0.00082,
+        "sd": 0.00057
+      },
+      "Admission type": {
+        "drop": 0.00069,
+        "sd": 0.0003
       }
     }
   }
