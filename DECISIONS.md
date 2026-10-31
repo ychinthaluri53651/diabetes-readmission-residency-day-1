@@ -14,6 +14,9 @@ signs off by replacing `pending` with the date and a short note.
 | 7 | Race, gender, and payer excluded as predictors; kept for the audit | Proxy-bias risk; fairness is judged on outcomes by group | Chinthaluri | Abburi — 2026-10-31, agreed |
 | 8 | Logistic regression as the initial model; default random forest as the comparison | Interpretable clinical standard; nonlinear comparison | Chinthaluri | Abburi — 2026-10-31, agreed |
 | 9 | Tune with ROC-AUC scoring and grouped folds, not accuracy | The default forest reaches 88.7% accuracy while catching almost no readmissions | Chinthaluri | Abburi — 2026-10-31, agreed |
+| 10 | Choose the final model on grouped CV only; keep logistic regression unless a challenger beats it by ≥ .005 AUC | The test set stays untouched until the final evaluation; a smaller gain does not justify losing readable coefficients. The random forest won by .009 and beat it in all three folds | Abburi | pending |
+| 11 | Calibrate the final model (`CalibratedClassifierCV`, grouped folds); pick sigmoid vs. isotonic by out-of-fold Brier score | Class weighting inflated D1's mean predicted risk to .469 against a true rate of .114; a care team needs probabilities it can read at face value | Abburi | pending |
+| 12 | Set flag thresholds from program capacity (top 5/10/20%) on out-of-fold training scores, not 0.5 and not the test set | Program capacity, not a fixed probability, limits how many patients can be followed up; reading thresholds off the test set would leak | Abburi | pending |
 
 ## Meetings
 
