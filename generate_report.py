@@ -280,8 +280,8 @@ def build():
 
     # ══ 1. Introduction ══════════════════════════════════════════════════════
     section("Introduction and Problem Framing", [
-        "A readmission within 30 days hurts two groups at once. Patients return to the "
-        "hospital sicker than when they left, and hospitals pay for it under the Hospital "
+        "A readmission within 30 days hurts two groups at once. Patients face another "
+        "hospital stay, and hospitals pay for it under the Hospital "
         "Readmissions Reduction Program, which penalizes excess readmissions (McIlvennan et "
         "al., 2015). The problem is large: nearly one in five Medicare patients is "
         "readmitted within 30 days, at an estimated $17.4 billion a year (Jencks et al., "
@@ -606,7 +606,7 @@ def build():
         f"predictor, measures access to care as well as need, so patients who struggle to "
         f"reach a hospital may be under-flagged (Obermeyer et al., 2019); excluding race and "
         f"payer as inputs does not remove such proxies. Deliverable 2 will test the age and "
-        f"gender gaps for miscalibration. Three safeguards also apply: clinicians can review "
+        f"gender gaps for miscalibration. Three considerations also apply: clinicians can review "
         f"the coefficients in Figure {f_coef}; errors are asymmetric, since a missed patient "
         f"loses support whereas a false alarm costs a phone call, which favors recall within "
         f"capacity; and the public file holds no names or dates, while a deployed version "
