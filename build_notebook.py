@@ -52,26 +52,12 @@ for years 1999–2008* [Data set]. UCI Machine Learning Repository (CC BY 4.0).
 | 12 | Preliminary hyperparameter tuning |
 | 13 | Ethical considerations |
 | 14 | Foundations carried into Deliverable 2 |
-
-**Course "Hints and Tips for Success" and where each is followed.** Three hints are applied in
-a corrected form for this dataset; the cell that applies each one explains why.
-
-| Hint | Section | How it is applied here |
-|---|---|---|
-| 1. Setup and imports | 1 | pandas, NumPy, Matplotlib, seaborn, scikit-learn; warnings suppressed |
-| 2. Uploading or accessing data | 2 | Downloaded by URL (hint for large data), with `files.upload()` as fallback |
-| 3. Exploration and cleaning | 3–4, 6 | `shape`, `info()`, `describe()`, `countplot`, distribution histograms, correlation heatmap, `drop_duplicates()`; missing values handled per column, **not** forward-filled |
-| 4. Feature engineering and preprocessing | 5, 7 | One-hot encoding and `StandardScaler`, fit **after** the split inside a `Pipeline` |
-| 5. Train–test split | 7 | 75/25 with `random_state=42`, **grouped by patient** |
-| 6. Model training and evaluation | 8–11 | Logistic regression and `RandomForestClassifier`; `classification_report`; seaborn confusion-matrix heatmaps |
-| 7. Hyperparameter tuning | 12 | `GridSearchCV` with the hint's forest grid, scored on ROC-AUC (**not** accuracy) with patient-grouped folds |
-| 8. Ethical considerations | 13 | Markdown cell answering the hint's questions, plus a subgroup check |
 ''')
 
 # ── 1. Setup ────────────────────────────────────────────────────────────────
 md(r'''
 ## 1. Setup and imports
-All libraries are imported up front (hint 1), including `GridSearchCV` for the preliminary
+All libraries are imported up front, including `GridSearchCV` for the preliminary
 tuning in Section 12. `mean_squared_error` is left out: it is a regression metric and does not
 apply to this classification task. One random seed, one house style, and one results dictionary (`R`)
 collect every number quoted in the written report.
@@ -135,7 +121,7 @@ print(R["versions"])
 # ── 2. Load ─────────────────────────────────────────────────────────────────
 md(r'''
 ## 2. Access the data
-Following hint 2's advice for large datasets, the loader downloads the UCI archive by URL
+Because the dataset is large, the loader downloads the UCI archive by URL
 (about 3 MB zipped, 19 MB unzipped), so the notebook runs unchanged in Colab or on a laptop.
 If the download is blocked, it falls back to the Colab upload widget. Two parsing choices
 matter: the file codes missing values as `?`, and it uses the literal string `None` to
@@ -156,7 +142,7 @@ def load_raw() -> pd.DataFrame:
             with urllib.request.urlopen(UCI_ZIP) as resp:
                 zipfile.ZipFile(io.BytesIO(resp.read())).extractall(DATA.parent)
         except OSError:
-            from google.colab import files                # hint 2: manual upload
+            from google.colab import files                  # fallback: manual upload
             uploaded = files.upload()                       # choose diabetic_data.csv
             DATA.write_bytes(uploaded[next(iter(uploaded))])
     # '?' = missing; "None" = test not performed, so keep it as a category.
@@ -183,7 +169,7 @@ print("\nreadmitted:", target.map("{:.1%}".format).to_dict())
 
 md(r'''
 ## 3. Explore the data
-Size, structure, and summary statistics first (hint 3), then the property that shapes
+Size, structure, and summary statistics first, then the property that shapes
 everything downstream: many patients appear more than once, so encounters are not
 independent.
 ''')
@@ -225,7 +211,7 @@ ax[0].set_xlim(0, 1.12)
 ax[0].xaxis.set_major_formatter(PCT_AXIS)
 ax[0].set(title="(a) Missing values by column", xlabel="Share of encounters missing")
 
-# (b) target: seaborn countplot (hint 3)
+# (b) target: seaborn countplot
 OUTCOME = {"NO": "Not readmitted", ">30": "After 30 days", "<30": "Within 30 days"}
 sns.countplot(data=raw.assign(outcome=raw["readmitted"].map(OUTCOME)), x="outcome",
               order=list(OUTCOME.values()), hue="outcome", hue_order=list(OUTCOME.values()),
@@ -264,7 +250,7 @@ same patient on both sides of the train–test boundary.
 
 md(r'''
 ### Distributions and correlations of the numeric features
-Hint 3 asks for the value distributions to be visualized. Histograms compare each count
+Histograms compare each count
 feature between readmitted and non-readmitted encounters, and a Spearman correlation
 heatmap (rank-based, because the counts are skewed) checks for redundant features.
 ''')
@@ -332,8 +318,8 @@ single feature will separate the classes.
 # ── 4. Cleaning ─────────────────────────────────────────────────────────────
 md(r'''
 ## 4. Clean: duplicates, exclusions, missing values, and the target
-Hint 3 suggests `drop_duplicates()` and `fillna(method='ffill')`. Duplicates are checked and
-dropped (none exist). **Forward fill is not used.** Each row is a different patient's
+Duplicates are checked with `drop_duplicates()` and dropped (none exist). **Forward fill
+(`fillna(method='ffill')`) is not used.** Each row is a different patient's
 encounter, so forward fill would copy one patient's specialty or race into the next
 patient's record, and pandas 3 has removed `fillna(method=...)` in any case. Missing values
 are handled per column instead:
@@ -361,7 +347,7 @@ def step(frame, label):
             "rate_30d": (frame["readmitted"] == "<30").mean()}
 
 ledger = [step(raw, "Raw UCI file")]
-df = raw.drop_duplicates()                                  # hint 3
+df = raw.drop_duplicates()
 ledger.append(step(df, "Drop exact duplicate rows"))
 df = df[~df["discharge_disposition_id"].isin(NO_RISK)].copy()
 ledger.append(step(df, "Remove deaths and hospice discharges"))
@@ -529,11 +515,11 @@ md(r'''
 * **Race, gender, and payer code are excluded from the predictors** and retained for the
   fairness checks in Section 13 and Deliverable 2. Payer is a socioeconomic proxy, and
   race-based risk scores in care management have been shown to encode access disparities.
-* **Split before fitting anything (hint 5).** The split uses hint 5's 75/25 ratio and
+* **Split before fitting anything.** The split uses a 75/25 ratio and
   `random_state=42`, but it is **grouped by patient**, so no patient contributes encounters
   to both training and test data.
-* **Encode and scale after the split (hint 4).** Hint 4 applies `get_dummies` and
-  `StandardScaler` to the full data before splitting, which would let test-set means,
+* **Encode and scale after the split.** Applying `get_dummies` and `StandardScaler`
+  to the full data before splitting would let test-set means,
   standard deviations, and category lists leak into training. Here `OneHotEncoder`, the
   pipeline-safe equivalent of `get_dummies`, and `StandardScaler` sit inside a scikit-learn
   `Pipeline`, so they are fit on training folds only. All dummy levels are kept, because
@@ -587,10 +573,10 @@ R.update(n_num=len(NUM), n_cat=len(CAT), n_model_cols=int(n_cols),
 # ── 8. Train models ─────────────────────────────────────────────────────────
 md(r'''
 ## 8. Train the initial models and read their classification reports
-Two models share the same preprocessing pipeline (hint 6). The **logistic regression** is
+Two models share the same preprocessing pipeline. The **logistic regression** is
 the chosen initial model. It is the standard for clinical risk scores, it is interpretable,
 and `class_weight="balanced"` makes it attend to the rare class. The
-**`RandomForestClassifier`**, run at its defaults as the hints suggest, is the nonlinear
+**`RandomForestClassifier`**, run at its default settings, is the nonlinear
 comparison. `classification_report` gives precision, recall, and F1 at the default 0.5
 threshold.
 ''')
@@ -750,7 +736,7 @@ ax[0, 1].set(title="(b) Precision-recall curves", xlabel="Recall", ylabel="Preci
              ylim=(0, 0.6))
 ax[0, 1].legend(loc="upper right")
 
-# (c)-(d) confusion matrices as seaborn heatmaps (hint 6)
+# (c)-(d) confusion matrices as seaborn heatmaps
 for a, (name, model), tag in zip(ax[1], MODELS.items(), "cd"):
     cmx = confusion_matrix(y_te, model.predict(X_te))
     share = cmx / cmx.sum(axis=1, keepdims=True)
@@ -843,7 +829,7 @@ imprecisely.
 # ── 11. Split check ─────────────────────────────────────────────────────────
 md(r'''
 ## 11. Sanity check: does the grouped split change the answer?
-Both models are refit on hint 5's conventional *random* split (`train_test_split`,
+Both models are refit on a conventional *random* split (`train_test_split`,
 `test_size=0.25`, `random_state=42`). When a patient's encounters straddle the boundary, a
 model can partly recognize the patient, and the random-split score would be optimistic.
 ''')
@@ -872,14 +858,15 @@ deployment question (how does the model do on *new* patients?) and costs nothing
 
 # ── 12. Preliminary tuning ──────────────────────────────────────────────────
 md(r'''
-## 12. Preliminary hyperparameter tuning (hint 7)
-Hint 7's grid search is applied with two changes:
+## 12. Preliminary hyperparameter tuning
+A grid search tunes both models, with two safeguards:
 * **Scoring is ROC-AUC, not accuracy.** Section 8 showed that accuracy rewards a model that
   never flags anyone.
 * **The three folds are grouped by patient** (`StratifiedGroupKFold`), so tuning cannot
   exploit repeat patients.
 
-The random-forest grid is the hint's own; the logistic-regression grid tunes the
+The random-forest grid varies the number of trees and the maximum depth; the
+logistic-regression grid tunes the
 regularization strength `C`. Full optimization (calibration, capacity-based thresholds,
 and a gradient-boosting challenger) is the work of Deliverable 2.
 ''')
