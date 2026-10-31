@@ -35,7 +35,7 @@ OUT_NAME = "Diabetes_Readmission_Deliverable1_Chinthaluri_Abburi.docx"
 NOTEBOOK = "Diabetes_Readmission_D1_Chinthaluri_Abburi.ipynb"
 
 # Paste the Colab share link here (Share -> "Anyone with the link can view").
-COLAB_URL = ""
+COLAB_URL = "https://colab.research.google.com/drive/1soOdtRg06c47cQvjgaBHrjf9M4Fukuu3?usp=sharing"
 
 # Two-person team with equal shares: each member leads three rubric criteria and reviews
 # the other's three, and the roles rotate between deliverables so each leads the core
