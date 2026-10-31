@@ -66,7 +66,7 @@ LEADS = {"Problem definition": ("Abburi", "Chinthaluri"),
 # done by the named member before submission: set each flag to True only when it is
 # (details in TEAM_TASKS.md).  The build warns while any is False.
 TEAM_TASKS = {
-    "Abburi re-ran the notebook in Colab from GitHub and confirmed Tables 3-4 (issue)": False,
+    "Abburi re-ran the notebook in Colab from GitHub and confirmed Tables 3-4 (issue)": True,  # issue #1, 2026-10-31
     "Abburi reviewed and approved the Deliverable 1 pull request on GitHub": True,  # PR #9, 2026-10-31
     "Abburi revised the Introduction and Ethics sections he leads (own branch + PR)": True,  # PR #13, 2026-10-31
     "Chinthaluri reviewed and merged Abburi's pull request": False,
