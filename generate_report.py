@@ -71,7 +71,7 @@ TEAM_TASKS = {
     "Abburi revised the Introduction and Ethics sections he leads (own branch + PR)": True,  # PR #13, 2026-10-31
     "Chinthaluri reviewed and merged Abburi's pull request": False,
     "Abburi proofread the full report for APA style (issue)": False,
-    "First weekly check-in held and logged in DECISIONS.md": False,
+    "First weekly check-in held and logged in DECISIONS.md": True,  # PR #14, 2026-10-31
 }
 
 # Page budgets ("about"), checked at ±25% per section.  The brief sets the first four;
