@@ -425,7 +425,14 @@ def build():
         f"predictors and reserved for fairness checks. One-hot encoding and scaling were "
         f"fit after the split, inside a scikit-learn pipeline (Pedregosa et al., 2011), "
         f"because fitting them on all rows leaks test information into training (Kaufman "
-        f"et al., 2012), as Figure {f_pipe} shows.",
+        f"et al., 2012). Figure {f_pipe} shows how the notebook enforces these choices. "
+        f"GroupShuffleSplit holds out a quarter of the patients "
+        f"({R['n_test_patients']:,}), not a quarter of the rows, and an assertion stops the "
+        f"run if any patient appears on both sides. Inside the pipeline, numeric inputs are "
+        f"standardized and categorical inputs one-hot encoded, with levels seen in fewer "
+        f"than 1% of encounters pooled, so that a rare category cannot become an unstable "
+        f"coefficient of its own; the {R['n_num']} numeric and {R['n_cat']} categorical "
+        f"inputs become {R['n_model_cols']} model columns.",
     ], after={0: ex_audit, 2: lambda: (ex_numeric(), ex_rates()),
               3: lambda: (ex_tables(), ex_pipe())})
 
@@ -521,7 +528,8 @@ def build():
     section("Initial Model Development", [
         ("h2", "Model Selection and Initial Results"),
         f"The initial model is an L2-regularized logistic regression with balanced class "
-        f"weights. It is the reference standard for clinical prediction (Steyerberg, 2019), "
+        f"weights, so that the rare readmissions are not outweighed by the majority class. "
+        f"It is the reference standard for clinical prediction (Steyerberg, 2019), "
         f"its coefficients can be inspected when a score allocates care (Rudin, 2019), and "
         f"established readmission indices such as LACE are themselves additive risk scores "
         f"(van Walraven et al., 2010). A random forest (Breiman, 2001) at default settings "
@@ -538,7 +546,12 @@ def build():
         f"et al., 2011). The default forest ranked worse by {nz(gap_rf)} and exposed the "
         f"accuracy trap: its {pct(rf['accuracy'])} accuracy equals the dummy's, yet it "
         f"caught {pct(rf['recall'])} of readmissions, against {pct(lr['recall'], 0)} for "
-        f"the logistic regression. The model beat the heuristic by "
+        f"the logistic regression. The classification reports in Figure {f_models} show the "
+        f"mechanism: at the default 0.5 threshold the forest labels almost every encounter "
+        f"\u201cnot readmitted,\u201d whereas the logistic regression's class weights, about "
+        f"{(1 - R['prev_train']) / R['prev_train']:.0f} to 1 in favor of readmissions, lead "
+        f"it to flag {pct(lr['flagged'])} of encounters, trading precision "
+        f"({nz(lr['precision'])}) for recall ({nz(lr['recall'])}). The logistic regression beat the heuristic by "
         f"{nz(lr['roc_auc'] - rule['roc_auc'])} AUC (95% CI [{nz(B['gain_lo'])}, "
         f"{nz(B['gain_hi'])}]) but tied it in the top risk decile (lift "
         f"{lc['10%']['lr']:.2f} vs. {lc['10%']['rule']:.2f}) and pulled ahead only at 20% "
@@ -551,7 +564,12 @@ def build():
         ("h2", "Preliminary Tuning"),
         f"GridSearchCV tuned both models (Table {t_tune}, Figure {f_tune}) on folds grouped "
         f"by patient and scored on ROC-AUC, because accuracy rewards the do-nothing behavior "
-        f"shown above. Limiting tree depth raised the forest's test AUC from {nz(rf['roc_auc'])} "
+        f"shown above. The code in Figure {f_tune} tries four penalty strengths for the "
+        f"logistic regression and six forest settings (100 or 200 trees, with a maximum "
+        f"depth of 10, 20, or unlimited), scores each on three folds, and refits the best; "
+        f"it chose C = {tlr['best_params']['C']} and a depth of "
+        f"{trf['best_params']['max_depth']} with {trf['best_params']['n_estimators']} "
+        f"trees. Limiting tree depth raised the forest's test AUC from {nz(rf['roc_auc'])} "
         f"to {nz(trf['test_auc'])}, whereas the logistic regression barely moved "
         f"({nz(lr['roc_auc'])} to {nz(tlr['test_auc'])}), because its discrimination is "
         f"nearly flat across the penalty grid. {tuned_sentence} Class weighting also "
@@ -643,7 +661,10 @@ def build():
     doc.add_page_break()
     rc.heading(doc, "Appendix A", 1)
     rc.heading(doc, "Google Colab Notebook", 1)
-    p = rc.body(doc, "Notebook link (view access for the instructor): ", indent=False)
+    p = rc.body(doc, "Notebook link (view access for the instructor):", indent=False)
+    p.alignment = rc.WD_ALIGN_PARAGRAPH.LEFT
+    p = rc.body(doc, "", indent=False)
+    p.alignment = rc.WD_ALIGN_PARAGRAPH.LEFT
     if COLAB_URL:
         rc.hyperlink(p, COLAB_URL)
     else:
