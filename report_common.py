@@ -36,6 +36,8 @@ PCT1 = lambda x: f"{x * 100:.1f}%"
 
 def new_doc():
     doc = Document()
+    doc.core_properties.author = "; ".join(name for name, _ in AUTHORS)
+    doc.core_properties.last_modified_by = doc.core_properties.author
     for sec in doc.sections:
         sec.top_margin = sec.bottom_margin = Inches(1.0)
         sec.left_margin = sec.right_margin = Inches(1.0)

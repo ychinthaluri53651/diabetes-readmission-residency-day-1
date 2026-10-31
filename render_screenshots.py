@@ -19,7 +19,7 @@ from pygments.lexers import PythonLexer
 from pygments.token import Comment, Keyword, Name, Number, Operator, String, Token
 
 HERE = Path(__file__).resolve().parent
-NB_PATH = HERE / "Diabetes_Readmission_D1_Chinthaluri.ipynb"
+NB_PATH = HERE / "Diabetes_Readmission_D1_Chinthaluri_Abburi.ipynb"
 OUT = HERE / "figures"
 
 FONT_PATH = "/System/Library/Fonts/Menlo.ttc"
