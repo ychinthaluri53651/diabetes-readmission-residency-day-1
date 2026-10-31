@@ -23,6 +23,14 @@ until all are `True`. Each task is also a GitHub issue.
 4. Open the notebook in Colab straight from GitHub: in Colab, File → Open notebook → GitHub →
    paste the repo URL → choose the notebook on the PR branch.
 
+**No Git install needed.** Every task can be committed from the browser while signed in as
+`Anil9618`, and the commit is recorded under that account:
+
+1. Open the file on GitHub (e.g., `DECISIONS.md`) and click the pencil icon (**Edit**).
+2. Make the change, then click **Commit changes…**.
+3. Choose **Create a new branch** and name it `abburi/<task>` (e.g., `abburi/decision-signoffs`).
+4. Click **Propose changes** and open the pull request, with `Closes #N` in its description.
+
 ## Deliverable 1 — before submission
 
 | # | Owner | Task | Evidence it leaves |
@@ -51,6 +59,7 @@ until all are `True`. Each task is also a GitHub issue.
 - Nothing reaches `main` without the other member's pull-request approval.
 - Each task is a GitHub issue assigned to its owner; pull requests close their issues
   (`Closes #N`).
-- Commits are made under each member's own Git identity.
+- Commits are made under each member's own Git identity. When both members write a change
+  together, the committer adds a `Co-authored-by:` line for the other, so GitHub credits both.
 - The notebook opens in Colab from GitHub; GitHub is the single source of truth.
 - Methodological decisions go in `DECISIONS.md` with proposer, reviewer, and date.
