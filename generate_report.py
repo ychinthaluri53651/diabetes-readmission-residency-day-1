@@ -10,9 +10,8 @@ drift from the code.
 
 Structure: the brief's four sections (Introduction and Problem Framing, Dataset
 Exploration and Preprocessing, Initial Model Development, Team Collaboration Process)
-plus one section the project rubric grades separately (Ethical Considerations and
-Real-World Application), then References and Appendix A (Colab link, rubric map, and
-course-hints map).  Narrative length is checked per section with real Georgia font
+plus Ethical Considerations and Use in Practice, then References and Appendix A (Colab
+link and course-hints map).  Narrative length is checked per section with real Georgia font
 metrics; exhibits add pages of their own.  Narrative claims that depend on the results
 are re-checked at build time (CLAIMS), so a rerun that changes a conclusion fails loudly.
 
@@ -37,31 +36,22 @@ NOTEBOOK = "Diabetes_Readmission_D1_Chinthaluri_Abburi.ipynb"
 # Paste the Colab share link here (Share -> "Anyone with the link can view").
 COLAB_URL = "https://colab.research.google.com/drive/1soOdtRg06c47cQvjgaBHrjf9M4Fukuu3?usp=sharing"
 
-# Two-person team with equal shares: each member leads three rubric criteria and reviews
-# the other's three, and the roles rotate between deliverables so each leads the core
-# modeling once.  TEAM rows: (member, student ID, Deliverable 1 lead, reviews,
+# Two-person team with equal shares: each member leads part of the work and reviews the
+# other's, and the roles rotate between deliverables so each leads the core modeling
+# once.  TEAM rows: (member, student ID, Deliverable 1 lead, reviews,
 # Deliverable 2 lead).
 CHINTHALURI, ABBURI = "Yogananda Atreya Chinthaluri", "Anil Kumar Abburi"
 REPO_URL = "https://github.com/ychinthaluri53651/diabetes-readmission-residency-day-1"
 TEAM = [
     (CHINTHALURI, "53651",
-     "Dataset exploration and preprocessing; model development; preliminary tuning",
-     "Problem framing; ethics; real-world application",
+     "Data audit and cleaning; feature engineering; modeling; preliminary tuning",
+     "Introduction; ethical analysis; deployment scenario",
      "Fairness audit and mitigation; cost and capacity analysis"),
     (ABBURI, "53405",
-     "Problem framing; ethical analysis; real-world application; Colab reproduction",
-     "Preprocessing, modeling, and tuning pull requests",
-     "Optimization: tuning, boosting, calibration, thresholds"),
+     "Introduction; ethical analysis; deployment scenario; Colab reproduction; APA proofread",
+     "Data, modeling, and tuning pull requests",
+     "Model tuning, boosting, calibration, and thresholds"),
 ]
-# Rubric criterion -> (lead, reviewer), by surname.
-LEADS = {"Problem definition": ("Abburi", "Chinthaluri"),
-         "Dataset exploration": ("Chinthaluri", "Abburi"),
-         "Model development": ("Chinthaluri", "Abburi"),
-         "Optimization and evaluation": ("Chinthaluri", "Abburi"),
-         "Ethics and impact": ("Abburi", "Chinthaluri"),
-         "Real-world application": ("Abburi", "Chinthaluri"),
-         "Teamwork and documentation": ("Both", "Both"),
-         "Writing and structure": ("Both", "Abburi (proofread)")}
 # The Team section describes these Deliverable 1 tasks as done.  They must actually be
 # done by the named member before submission: set each flag to True only when it is
 # (details in TEAM_TASKS.md).  The build warns while any is False.
@@ -75,12 +65,12 @@ TEAM_TASKS = {
 }
 
 # Page budgets ("about"), checked at ±25% per section.  The brief sets the first four;
-# Model Development carries the preliminary tuning the rubric grades, and the ethics
-# section answers the rubric's ethics and real-world rows.
+# Model Development also carries the preliminary tuning, and the ethics section sets up
+# the Deliverable 2 fairness work.
 PAGE_BUDGET = {"Introduction and Problem Framing": 0.5,
                "Dataset Exploration and Preprocessing": 1.5,
                "Initial Model Development": 1.25,
-               "Ethical Considerations and Real-World Application": 0.6,
+               "Ethical Considerations and Use in Practice": 0.6,
                "Team Collaboration Process": 0.5}
 TOL = 0.25
 
@@ -288,7 +278,7 @@ def build():
         "2009), and patients with diabetes are at higher risk than most (Rubin, 2015). "
         "Hospitals try to prevent these returns with follow-up calls and medication "
         "reconciliation, but such programs can reach only some patients, so the real "
-        "question is whom to contact first. This project therefore asks: using only "
+        "question is whom to contact first. We therefore ask: using only "
         "information available at discharge, can routinely collected encounter data rank "
         "diabetic inpatients by 30-day readmission risk well enough to decide who receives "
         "follow-up? We judge success by ranking, not accuracy. Published readmission models "
@@ -570,7 +560,7 @@ def build():
         f"Deliverable 2 will calibrate scores and set thresholds from program capacity.",
     ], after={2: lambda: (ex_results(), ex_coef()), 4: ex_tuning})
 
-    # ══ 4. Ethics and real-world application ═════════════════════════════════
+    # ══ 4. Ethics and use in practice ════════════════════════════════════════
     t_sub = T("subgroups")
     per_1000 = R["prev_test"] * 1000
     caught = lc["10%"]["lr"] * R["prev_test"] * 100
@@ -591,7 +581,7 @@ def build():
                   "gender are not model inputs; age enters only as a band midpoint."),
             fs=9)
 
-    section("Ethical Considerations and Real-World Application", [
+    section("Ethical Considerations and Use in Practice", [
         f"In practice the model would support, not replace, discharge planning. Each day "
         f"the care-transition nurses would receive that day's discharges ranked by risk and "
         f"call patients from the top of the list for as long as capacity allows. At 10% "
@@ -624,24 +614,24 @@ def build():
                      ["Member", "Student ID", "Leads in Deliverable 1", "Reviews in Deliverable 1",
                       "Leads in Deliverable 2"],
                      [list(m) for m in TEAM], col_widths=[17, 9, 28, 22, 24], fs=9,
-                     note=(f"Each member leads three rubric criteria and reviews the other's "
-                           f"three (Appendix A, Table A1); writing is shared, and both approve "
-                           f"the final report. Repository: {REPO_URL}"))
+                     note=(f"Each member leads part of the work and reviews the other's; the "
+                           f"writing is shared. Repository: {REPO_URL}"))
 
     section("Team Collaboration Process", [
-        f"The two members carry equal shares: each leads three rubric criteria and reviews "
-        f"the other's three (Table {t_team}). In this deliverable, Chinthaluri led data "
-        f"exploration, preprocessing, modeling, and preliminary tuning, while Abburi led "
-        f"problem framing, ethical analysis, and the real-world application and "
-        f"independently re-ran the notebook in Google Colab to confirm every reported "
-        f"number. The roles rotate in Deliverable 2, where Abburi leads optimization and "
-        f"Chinthaluri leads the fairness audit, so each member leads the core modeling once. "
-        f"The code is tracked in a shared GitHub repository: each task is built on its own "
-        f"branch, assigned as an issue, and merged only after the other member approves the "
-        f"pull request, so the history records both authorship and review. The notebook, "
-        f"built with pandas, Matplotlib (Hunter, 2007), seaborn, and scikit-learn, opens in "
-        f"Colab from that repository. Decisions are logged with proposer and reviewer, the "
-        f"members meet weekly, and because the report is regenerated from the notebook's "
+        f"We shared the work equally, each of us leading part of it and reviewing the "
+        f"other's (Table {t_team}). In this deliverable, Chinthaluri led the data audit, "
+        f"cleaning, feature engineering, modeling, and preliminary tuning, while Abburi led "
+        f"the problem framing, the ethical analysis, and the deployment scenario, proofread "
+        f"the report, and independently re-ran the notebook, including in Google Colab, "
+        f"confirming the reported test-set results. The roles rotate in Deliverable 2, where "
+        f"Abburi leads model tuning and Chinthaluri leads the fairness audit, so each of us "
+        f"leads the core modeling once. We tracked the work in a shared GitHub repository: "
+        f"tasks were assigned as issues, and each change was built on its own branch and "
+        f"merged only after the other member approved the pull request, so the history "
+        f"records both authorship and review. The notebook, built with pandas, Matplotlib "
+        f"(Hunter, 2007), seaborn, and scikit-learn, opens in Colab from that repository. We "
+        f"logged each decision with its proposer and reviewer and held our first check-in in "
+        f"person on October 31, and because the report is regenerated from the notebook's "
         f"results file (Sandve et al., 2013), either member's change reaches every table "
         f"automatically.",
     ], after={0: ex_team})
@@ -651,7 +641,7 @@ def build():
 
     doc.add_page_break()
     rc.heading(doc, "Appendix A", 1)
-    rc.heading(doc, "Google Colab Notebook, Rubric Map, and Course-Hints Map", 1)
+    rc.heading(doc, "Google Colab Notebook and Course-Hints Map", 1)
     p = rc.body(doc, "Notebook link (view access for the instructor): ", indent=False)
     if COLAB_URL:
         rc.hyperlink(p, COLAB_URL)
@@ -659,36 +649,11 @@ def build():
         rc._run(p, "[PASTE COLAB SHARE LINK]", bold=True)
     rc.body(doc, (f"The notebook ({NOTEBOOK}) is self-contained: on first run it downloads "
                   f"the UCI archive, then executes top to bottom and writes every figure "
-                  f"and reported number. Table A1 maps each rubric criterion to where this "
-                  f"report and the notebook address it, and Table A2 shows how each course "
-                  f"hint was followed, including the three applied in corrected form."),
+                  f"and reported number. Table A1 shows how each course hint was followed, "
+                  f"including the three applied in corrected form."),
             indent=True)
-    a1_rows = [
-        ["Problem definition", "Introduction and Problem Framing",
-         "Stakeholders, penalty context, and a capacity-limited question"],
-        ["Dataset exploration", "Dataset Exploration and Preprocessing",
-         f"Figures {f_audit}–{f_rates}; Tables {t_feat} and {t_ledger}; notebook Sections 2–6"],
-        ["Model development", "Model Selection and Initial Results",
-         f"Two justified models and two references; Table {t_res}; Figures "
-         f"{f_models}–{f_coef}"],
-        ["Optimization and evaluation", "Preliminary Tuning",
-         f"Grouped GridSearchCV on ROC-AUC; Table {t_tune}; Figure {f_tune}; full "
-         f"optimization in Deliverable 2"],
-        ["Ethics and impact", "Ethical Considerations and Real-World Application",
-         f"Proxy bias, subgroup check (Table {t_sub}), transparency, error costs, privacy"],
-        ["Real-world application", "Ethical Considerations and Real-World Application",
-         "Daily ranked discharge list; 1,000-discharge worked example"],
-        ["Teamwork and documentation", "Team Collaboration Process",
-         f"Table {t_team}; pull-request reviews and Git history; decision log; README"],
-        ["Writing and structure", "Whole report",
-         "APA 7th edition; build checks for citations, callouts, and spelling"]]
     rc.add_table(
-        doc, "A1", "Project Rubric Criteria, Where Each Is Addressed, and Who Leads It",
-        ["Criterion", "Where in the report", "Evidence", "Lead / reviewer"],
-        [r + [" / ".join(LEADS[r[0]])] for r in a1_rows],
-        col_widths=[18, 26, 38, 18], fs=8.5)
-    rc.add_table(
-        doc, "A2", "Course Hints and How the Notebook Follows Them",
+        doc, "A1", "Course Hints and How the Notebook Follows Them",
         ["Hint", "Notebook section", "How it is applied"],
         [["1. Setup and imports", "1",
           "pandas, NumPy, Matplotlib, seaborn, scikit-learn, GridSearchCV; warnings suppressed"],
@@ -759,7 +724,7 @@ def build():
     print(f"  figures first mentioned in order: {order} -> {'OK' if order == sorted(order) else 'NO'}")
     print(f"  tables first mentioned in order: {t_order} -> {'OK' if t_order == sorted(t_order) else 'NO'}")
     print(f"  spacing slips: {spacing or 'none'}")
-    print(f"  figures: {len(_FIGURES)} | tables: {len(_TABLES)} (+2 in Appendix A)")
+    print(f"  figures: {len(_FIGURES)} | tables: {len(_TABLES)} (+1 in Appendix A)")
     pending = [t for t, done in TEAM_TASKS.items() if not done]
     if pending:
         print(f"  WARNING team tasks described in the report but not yet confirmed "
