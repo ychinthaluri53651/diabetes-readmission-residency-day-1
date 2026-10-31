@@ -30,7 +30,6 @@ found, and how we worked as a team, and it links to each piece of evidence.
 |---|---|
 | The report (APA 7th) | [`Diabetes_Readmission_Deliverable1_Chinthaluri_Abburi.docx`](Diabetes_Readmission_Deliverable1_Chinthaluri_Abburi.docx) |
 | The code with every output | [`Diabetes_Readmission_D1_Chinthaluri_Abburi.ipynb`](Diabetes_Readmission_D1_Chinthaluri_Abburi.ipynb), or run it with the Colab badge above |
-| Who led and reviewed each part | [`TEAM_TASKS.md`](TEAM_TASKS.md) |
 | The decisions we made, and why | [`DECISIONS.md`](DECISIONS.md) |
 | How we reviewed each other's work | [Pull requests](https://github.com/ychinthaluri53651/diabetes-readmission-residency-day-1/pulls?q=is%3Apr) |
 | How we planned and tracked tasks | [Issues](https://github.com/ychinthaluri53651/diabetes-readmission-residency-day-1/issues?q=is%3Aissue) and [milestones](https://github.com/ychinthaluri53651/diabetes-readmission-residency-day-1/milestones?state=all) |
@@ -99,34 +98,25 @@ training and test. Cross-validation uses five folds grouped by patient.
 ## Reproducing our results
 
 **In Colab:** click the badge at the top and run Runtime → Run all. The notebook downloads
-the UCI files itself. Because the repository is private, Colab first asks for permission to
-read private GitHub repositories.
+the UCI files itself.
 
-**Locally** (Python 3.14):
+**Locally** (Python 3.14): run `pip install -r requirements.txt`, then run the notebook top
+to bottom in Jupyter or VS Code.
 
-```bash
-pip install -r requirements.txt
-python3 build_notebook.py       # executes the notebook -> figures/*.png, outputs/results.json
-python3 render_screenshots.py   # renders the tagged notebook cells -> figures/shot_*.png
-python3 generate_report.py      # -> Diabetes_Readmission_Deliverable1_Chinthaluri_Abburi.docx
-```
-
-The executed notebook is our single source of truth: every figure is written to `figures/`
-and every reported number to `outputs/results.json`, which the report reads. The report build
-fails if a sentence is no longer supported by the results, a reference is never cited, or an
-exhibit is never called out.
+The notebook is our single source of truth: running it writes every figure to `figures/` and
+every reported number to `outputs/results.json`, and the report's tables and figures come
+from that run.
 
 <details>
 <summary><b>Repository layout</b></summary>
 
 | Path | Purpose |
 |---|---|
-| `build_notebook.py` | Assembles and executes the notebook |
-| `render_screenshots.py` | Draws the cells tagged `shot:<key>` (code plus real output) as report figures |
-| `generate_report.py`, `report_common.py` | Build the APA report from `outputs/results.json` |
-| `figures/`, `outputs/` | Generated figures and results |
-| `TEAM_TASKS.md` | Who leads and reviews what in each deliverable |
+| `Diabetes_Readmission_D1_Chinthaluri_Abburi.ipynb` | The Colab notebook, executed, with every output |
+| `Diabetes_Readmission_Deliverable1_Chinthaluri_Abburi.docx` | The report |
+| `figures/`, `outputs/` | Figures and results written by the notebook |
 | `DECISIONS.md` | Decision log and meeting notes |
+| `requirements.txt` | Package versions for a local run |
 | `data/` | UCI files, downloaded on first run (not tracked) |
 
 </details>
