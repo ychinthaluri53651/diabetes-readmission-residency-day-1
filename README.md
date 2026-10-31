@@ -41,12 +41,12 @@ found, and how we worked as a team, and it links to each piece of evidence.
 |---|---|---|
 | **Student ID** | 53651 | 53405 |
 | **GitHub** | [@ychinthaluri53651](https://github.com/ychinthaluri53651) | [@Anil9618](https://github.com/Anil9618) |
-| **Leads, Deliverable 1** | Dataset exploration · model development · preliminary tuning | Problem definition · ethics and impact · real-world application · Colab reproduction |
-| **Leads, Deliverable 2** | Ethics and fairness audit · real-world cost and capacity analysis | Optimization and evaluation · problem-definition update · model explanation |
+| **Leads, Deliverable 1** | Data audit and cleaning · feature engineering · modeling · preliminary tuning | Introduction · ethical analysis · deployment scenario · Colab reproduction · APA proofread |
+| **Leads, Deliverable 2** | Fairness audit and mitigation · cost and capacity analysis | Model tuning, boosting, and calibration · capacity-based thresholds · model explanation |
 
-We share the work equally. Each of us leads three rubric criteria and reviews the other's
-three, and the roles rotate between deliverables, so each of us leads the core modeling
-once. Teamwork, documentation, and writing are shared.
+We share the work equally: each of us leads part of it and reviews the other's, and the
+roles rotate between deliverables, so each of us leads the core modeling once. We write
+the report together.
 
 ## What we found
 
@@ -83,16 +83,16 @@ training and test. Cross-validation uses five folds grouped by patient.
   `CODEOWNERS` requests that review automatically, and a template carries the review
   checklist.
 - **Deciding.** Each methodological choice is logged in `DECISIONS.md` with who proposed
-  it, who reviewed it, and when, along with notes from our weekly check-ins.
+  it, who reviewed it, and when, along with notes from our check-ins.
 - **Authorship.** Each of us commits under our own GitHub account, so the history shows who
   wrote and who reviewed each change.
 
 ## What comes next: Deliverable 2
 
-- **Optimization and evaluation** (led by Abburi): wider tuning grids, a gradient-boosting
+- **Model tuning and evaluation** (led by Abburi): wider tuning grids, a gradient-boosting
   challenger, calibration (class weighting raised the mean predicted risk to .469 against a
   true rate of .114), and a threshold set by program capacity.
-- **Fairness and real-world impact** (led by Chinthaluri): recall, flag rate, and calibration
+- **Fairness and impact in practice** (led by Chinthaluri): recall, flag rate, and calibration
   by race, gender, and age with confidence intervals; a mitigation test for the two gaps
   above; and a cost and capacity analysis for a deployment plan.
 

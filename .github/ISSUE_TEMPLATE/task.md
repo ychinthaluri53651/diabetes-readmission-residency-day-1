@@ -8,7 +8,7 @@ assignees: ""
 
 **Owner:** @
 **Reviewer:** @
-**Rubric criterion:** <!-- e.g., Model development -->
+**Area:** <!-- e.g., Modeling -->
 
 ## Task
 
